@@ -261,6 +261,42 @@ a { color: var(--shark); }
 .credits { font-size: 13px; line-height: 1.6; user-select: text; -webkit-user-select: text; }
 .credits li { margin-bottom: 4px; overflow-wrap: anywhere; }
 
+/* the page must work without a host skeleton (GitHub Pages): hidden overlays must not catch taps */
+[hidden] { display: none !important; }
+#sheet { z-index: 12; }   /* writing can open from the letter chart */
+#start { z-index: 14; }
+input { -webkit-user-select: text; user-select: text; font-family: inherit; }
+
+/* start screen: who is playing */
+.start-card { width: min(560px, 94vw); gap: 14px; padding: 26px 26px 24px; }
+.start-title { margin: 0; font-family: var(--font-char); font-weight: 600; font-size: 40px; letter-spacing: .08em; color: var(--sea-deep); }
+.start-title span { color: var(--guide); }
+.start-q { margin: 0; font-size: 24px; font-weight: 900; }
+.players { display: grid; gap: 10px; width: 100%; }
+.player { display: flex; gap: 8px; align-items: stretch; }
+.player .pick {
+  flex: 1; border: 0; border-radius: 18px; padding: 14px 18px; background: #e4f1f5; box-shadow: 0 4px 0 #b9d3dc;
+  display: flex; align-items: center; gap: 12px; text-align: left; font-size: 26px; font-weight: 900; min-width: 0;
+}
+.player .pick .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.player .pick small { margin-left: auto; font-size: 14px; color: var(--muted); font-weight: 700; white-space: nowrap; }
+.player .pick:active { transform: translateY(3px); box-shadow: none; }
+.player .del { border: 0; width: 48px; border-radius: 14px; background: #f1ece2; color: var(--muted); font-size: 20px; font-weight: 900; }
+.player.confirm { background: #fff1ec; border-radius: 18px; padding: 10px 12px; align-items: center; flex-wrap: wrap; font-size: 18px; font-weight: 900; }
+.player.confirm span { flex: 1 1 200px; }
+.player.confirm button { border: 0; border-radius: 12px; padding: 10px 16px; font-size: 16px; font-weight: 900; }
+.player.confirm .yes { background: var(--guide); color: #fff; }
+.player.confirm .no { background: #fff; }
+.name-form { width: 100%; display: grid; gap: 6px; }
+.name-form label { font-size: 15px; font-weight: 900; color: var(--muted); }
+.name-row { display: flex; gap: 10px; }
+#nameInput {
+  flex: 1; min-width: 0; border: 3px solid #cfe0e6; border-radius: 16px; padding: 12px 14px;
+  font-size: 24px; font-weight: 700; color: var(--ink); background: #fff;
+}
+#nameInput:focus { outline: none; border-color: var(--sea-top); }
+.name-err { min-height: 1.4em; color: var(--guide); font-size: 15px; font-weight: 900; }
+
 #loading { position: absolute; inset: 0; display: grid; place-items: center; z-index: 20; background: var(--sea-top); color: #fff; font-size: 24px; font-weight: 900; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -283,6 +319,7 @@ a { color: var(--shark); }
         <button id="m-look" data-mode="look">みてかく</button>
         <button id="m-listen" data-mode="listen">きいてかく</button>
       </div>
+      <button class="pill alt" id="whoBtn" aria-label="あそぶ ひとを かえる">🧒 <span id="whoName"></span></button>
       <button class="pill alt" id="chartBtn">もじ</button>
       <button class="pill" id="zukanBtn">ずかん <span id="zkCount"></span></button>
     </div>
@@ -336,7 +373,7 @@ a { color: var(--shark); }
       <button class="close-x" id="closeZukan" aria-label="とじる">×</button>
       <div id="zkList" style="display:contents">
         <div class="panel-head">
-          <h2>いきもの ずかん</h2>
+          <h2 id="zkTitle">いきもの ずかん</h2>
           <span class="count" id="zkCount2"></span>
           <div class="chips" id="zkChips" role="group" aria-label="しぼりこみ">
             <button data-f="all">ぜんぶ</button>
@@ -375,6 +412,22 @@ a { color: var(--shark); }
     </div>
   </div>
 
+  <div id="start" class="overlay" hidden>
+    <div class="card start-card">
+      <h2 class="start-title">ひらがな<span>つり</span></h2>
+      <p class="start-q" id="startQ">だれが あそぶ？</p>
+      <div class="players" id="players"></div>
+      <form class="name-form" id="nameForm" autocomplete="off">
+        <label for="nameInput" id="nameLabel">あたらしく はじめる ひとの なまえ</label>
+        <div class="name-row">
+          <input id="nameInput" maxlength="10" placeholder="なまえ" enterkeyhint="go">
+          <button class="pill" type="submit">はじめる</button>
+        </div>
+        <div class="name-err" id="nameErr"></div>
+      </form>
+    </div>
+  </div>
+
   <div id="loading">じゅんびちゅう…</div>
 </div>
 
@@ -403,16 +456,29 @@ const SPOKEN = { 'を': 'くっつきの を' };
 const spoken = ch => SPOKEN[ch] || ch;
 
 const $ = s => document.querySelector(s);
-const KEY = 'hiragana-tsuri-v2';
-function loadState() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } }
-const st0 = loadState();
-const state = {
-  caught: st0.caught || {},
-  progress: st0.progress || {},
-  mode: ['trace', 'look', 'listen'].includes(st0.mode) ? st0.mode : 'trace',
-  rows: Array.isArray(st0.rows) && st0.rows.length ? st0.rows : [0, 1, 2],
-};
-function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {} }
+// Each player keeps their own record: { players: [{ id, name, state }], current }.
+const KEY = 'hiragana-tsuri-v3', OLD_KEY = 'hiragana-tsuri-v2';
+function readJSON(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }
+const store = readJSON(KEY) || { players: [], current: null };
+if (!Array.isArray(store.players)) store.players = [];
+function freshState(s) {
+  s = s || {};
+  return {
+    caught: s.caught || {},
+    progress: s.progress || {},
+    mode: ['trace', 'look', 'listen'].includes(s.mode) ? s.mode : 'trace',
+    rows: Array.isArray(s.rows) && s.rows.length ? s.rows.slice() : [0, 1, 2],
+  };
+}
+const state = freshState();
+let player = null;
+function writeStore() { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch {} }
+function save() {
+  if (!player) return;
+  player.state = JSON.parse(JSON.stringify(state));
+  store.current = player.id;
+  writeStore();
+}
 
 /* ================= sound ================= */
 let actx = null;
@@ -912,7 +978,7 @@ function showCatch(f) {
     cardEl.appendChild(s);
   }
   showOverlay(catchOv);
-  say(`${d.name}を、つったよ！${isNew ? ' はじめて つかまえたね！' : ''}`);
+  say(`${player ? player.name + '、' : ''}${d.name}を、つったよ！${isNew ? ' はじめて つかまえたね！' : ''}`);
 }
 function finishCatch() {
   if (!catchFish) return;
@@ -999,6 +1065,7 @@ function showDetail(id) {
 function escapeHTML(s) { return String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch])); }
 function openZukan(id) {
   busy = true; renderZukanList();
+  $('#zkTitle').textContent = player ? `${player.name}の ずかん` : 'いきもの ずかん';
   $('#zkDetail').style.display = 'none'; $('#zkList').style.display = 'contents';
   showOverlay($('#zukan'));
   if (id) showDetail(id);
@@ -1068,6 +1135,64 @@ document.querySelectorAll('.modes button').forEach(b => b.addEventListener('clic
   say({ trace: 'なぞる', look: 'みて かく', listen: 'きいて かく' }[b.dataset.mode]);
 }));
 
+/* ================= players (start screen) ================= */
+const startOv = $('#start');
+function caughtCount(s) { return CREATURES.filter(c => s && s.caught && s.caught[c.id]).length; }
+function renderPlayers() {
+  const has = store.players.length > 0;
+  $('#startQ').textContent = has ? 'だれが あそぶ？' : 'なまえを おしえてね';
+  $('#nameLabel').textContent = has ? 'あたらしく はじめる ひとの なまえ' : 'あそぶ ひとの なまえ';
+  $('#players').innerHTML = store.players.map(p => `
+    <div class="player" data-id="${p.id}">
+      <button class="pick" data-act="pick"><span>🧒</span><span class="nm">${escapeHTML(p.name)}</span><small>ずかん ${caughtCount(p.state)}/${CREATURES.length}</small></button>
+      <button class="del" data-act="ask" aria-label="${escapeHTML(p.name)}の きろくを けす">×</button>
+    </div>`).join('');
+}
+function usePlayer(p) {
+  player = p;
+  Object.assign(state, freshState(p.state));
+  store.current = p.id; writeStore();
+  $('#whoName').textContent = p.name;
+  setMode(state.mode); updateCount(); respawnAll();
+  hideOverlay(startOv); busy = false;
+  say(`${p.name}、いっしょに つりを しよう！`);
+}
+function showStart() {
+  busy = true; renderPlayers();
+  $('#nameInput').value = ''; $('#nameErr').textContent = '';
+  showOverlay(startOv);
+}
+$('#players').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const row = b.closest('.player'), p = store.players.find(x => x.id === row.dataset.id);
+  if (!p) return;
+  audio(); sfx.tap();
+  if (b.dataset.act === 'pick') usePlayer(p);
+  else if (b.dataset.act === 'ask') {
+    row.className = 'player confirm';
+    row.innerHTML = `<span>${escapeHTML(p.name)}の きろくを けす？ もとに もどせないよ</span>
+      <button class="yes" data-act="del">けす</button><button class="no" data-act="cancel">やめる</button>`;
+  } else if (b.dataset.act === 'del') {
+    store.players = store.players.filter(x => x !== p);
+    if (store.current === p.id) store.current = null;
+    if (player === p) player = null;
+    writeStore(); renderPlayers();
+  } else renderPlayers();
+});
+$('#nameForm').addEventListener('submit', e => {
+  e.preventDefault(); audio();
+  const name = $('#nameInput').value.trim().replace(/\s+/g, ' ');
+  if (!name) { $('#nameErr').textContent = 'なまえを いれてね'; return; }
+  if (store.players.some(p => p.name === name)) { $('#nameErr').textContent = 'その なまえは もう あるよ。うえから えらんでね'; return; }
+  // the first player inherits the record saved before names existed
+  const old = store.players.length === 0 ? readJSON(OLD_KEY) : null;
+  const p = { id: 'p' + Date.now().toString(36), name, state: freshState(old) };
+  store.players.push(p); writeStore();
+  $('#nameInput').blur(); sfx.good();
+  usePlayer(p);
+});
+$('#whoBtn').addEventListener('click', () => { if (busy) return; audio(); sfx.tap(); save(); showStart(); });
+
 /* ================= scenery & boot ================= */
 const bub = $('#bubbles');
 for (let i = 0; i < 10; i++) {
@@ -1087,6 +1212,7 @@ setMode(state.mode); updateCount();
 setTimeout(() => {
   respawnAll();
   $('#loading').remove();
+  showStart();
   requestAnimationFrame(tick);
 }, 0);
 })();
