@@ -295,6 +295,14 @@ input { -webkit-user-select: text; user-select: text; font-family: inherit; }
   font-size: 24px; font-weight: 700; color: var(--ink); background: #fff;
 }
 #nameInput:focus { outline: none; border-color: var(--sea-top); }
+.voice-row { display: flex; align-items: center; gap: 10px; width: 100%; border-top: 2px dashed #e3ddd0; padding-top: 12px; }
+.voice-row label { font-size: 16px; font-weight: 900; color: var(--muted); }
+#voiceSel {
+  flex: 1; min-width: 0; font: inherit; font-size: 16px; font-weight: 700; color: var(--ink);
+  border: 2px solid #cfe0e6; border-radius: 12px; padding: 8px 10px; background: #fff;
+}
+.voice-row .icon-btn { width: 44px; height: 44px; font-size: 20px; }
+.voice-hint { margin: 0; font-size: 12px; line-height: 1.6; color: var(--muted); font-weight: 500; }
 .name-err { min-height: 1.4em; color: var(--guide); font-size: 15px; font-weight: 900; }
 
 #loading { position: absolute; inset: 0; display: grid; place-items: center; z-index: 20; background: var(--sea-top); color: #fff; font-size: 24px; font-weight: 900; }
@@ -425,6 +433,12 @@ input { -webkit-user-select: text; user-select: text; font-family: inherit; }
         </div>
         <div class="name-err" id="nameErr"></div>
       </form>
+      <div class="voice-row">
+        <label for="voiceSel">こえ</label>
+        <select id="voiceSel"></select>
+        <button type="button" class="icon-btn" id="voiceTest" aria-label="こえを きく">🔊</button>
+      </div>
+      <p class="voice-hint">保護者の方へ：iPad の「設定」→「アクセシビリティ」→「読み上げコンテンツ」→「声」→「日本語」で「拡張」や「プレミアム」の声をダウンロードすると、より自然な声を選べるようになります。</p>
     </div>
   </div>
 
@@ -502,19 +516,36 @@ const sfx = {
   plop() { tone(220, 0, .25, 'sine', .2); tone(140, .05, .3, 'sine', .15); },
   reel() { for (let i = 0; i < 8; i++) tone(900 + i * 40, i * .09, .05, 'square', .04); },
 };
-let jaVoice = null;
-function pickVoice() {
-  try { const v = speechSynthesis.getVoices().filter(v => /^ja/i.test(v.lang)); jaVoice = v.find(x => /Kyoko|O-ren|Hattori/i.test(x.name)) || v[0] || null; } catch {}
+// Voice: prefer the iPad's higher-quality (拡張 / プレミアム) Japanese voices; the choice is saved for everyone.
+// Spoken lines are written in normal kanji-kana text (the screen shows hiragana for the kids),
+// because all-hiragana text with spaces makes the speech engine pause and misread.
+let jaVoices = [], jaVoice = null;
+function rankVoice(v) {
+  let s = 0;
+  if (/enhanced|premium|拡張|プレミアム|高品質/i.test(v.name)) s += 10;
+  if (/Kyoko|Otoya|O-ren|Hattori/i.test(v.name)) s += 3;
+  if (v.localService) s += 1;
+  return s;
 }
-try { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; } catch {}
+function pickVoice() {
+  try {
+    jaVoices = speechSynthesis.getVoices().filter(v => /^ja/i.test(v.lang)).sort((a, b) => rankVoice(b) - rankVoice(a));
+    jaVoice = jaVoices.find(v => v.voiceURI === store.voice) || jaVoices[0] || null;
+  } catch {}
+  renderVoices();
+}
+try { speechSynthesis.onvoiceschanged = pickVoice; } catch {}
 function say(text) {
   try {
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'ja-JP'; u.rate = .85; u.pitch = 1.15; if (jaVoice) u.voice = jaVoice;
+    u.lang = 'ja-JP'; u.rate = .95; u.pitch = 1.05; if (jaVoice) u.voice = jaVoice;
     speechSynthesis.speak(u);
   } catch {}
 }
+const toKata = s => s.replace(/[ぁ-ゖ]/g, ch => String.fromCharCode(ch.charCodeAt(0) + 0x60));
+// a single letter inside a sentence: "か、という字" reads clearly; を is taught as くっつきの「を」
+const letterWord = ch => ch === 'を' ? 'くっつきの、を' : `${ch}、`;
 
 /* ================= stroke recognizer =================
    Stroke data: KanjiVG (109x109 units). Each stroke is resampled to RS points.
@@ -871,7 +902,13 @@ function onTraceStroke() {
     miss: 'うすい せんの うえを なぞってね',
     extra: 'もう かけているよ',
   }[r.reason];
-  setMsg(text); say(text.split('。')[0]);
+  setMsg(text);
+  say({
+    direction: '向きが反対だよ。緑の丸から書こう。',
+    order: '順番が違うよ。緑の丸の番号から書こう。',
+    miss: '薄い線の上を、なぞってね。',
+    extra: 'もう書けているよ。',
+  }[r.reason]);
   setTimeout(() => { strokes.pop(); drawPad(); }, 450);
 }
 
@@ -885,7 +922,7 @@ function renderPrompt() {
   $('#prompt').innerHTML = `<span class="big">${shown}</span> を かいてね<span class="sub">${n}かいで かく もじ</span>`;
   $('#doneBtn').hidden = tracing();
 }
-function speakPrompt() { say(`${spoken(session.ch)}、を かいてね`); }
+function speakPrompt() { say(`${letterWord(session.ch)}を書いてね。`); }
 function showOverlay(el) { el.hidden = false; requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show'))); }
 function hideOverlay(el) { el.classList.remove('show'); setTimeout(() => { el.hidden = true; }, 250); }
 
@@ -915,21 +952,21 @@ $('#doneBtn').addEventListener('click', () => {
   const ch = session.ch;
   const r = recognize(strokes, ch, { boxSize });
   if (r.reason === 'empty') { setMsg('ここに じを かいてね'); return; }
-  if (r.reason === 'small') { setMsg('もうすこし おおきく かいてね'); say('もうすこし おおきく かいてね'); return; }
+  if (r.reason === 'small') { setMsg('もうすこし おおきく かいてね'); say('もう少し、大きく書いてね。'); return; }
   if (r.ok) return success();
   fails++; sfx.miss();
   card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
-  let text, showDemo = false;
-  if (r.reason === 'order') { text = 'かたちは いいね！ でも かきじゅんが ちがうよ'; showDemo = true; }
-  else if (r.reason === 'direction') { text = `${r.stroke + 1}かくめの むきが はんたいだよ`; showDemo = true; }
-  else if (r.reason === 'count') { text = `「${ch}」は ${r.expected}かいで かくよ（いまは ${r.got}かい）`; showDemo = true; }
-  else if (r.looksLike) text = `「${r.looksLike}」に みえるよ。もういちど`;
-  else text = 'おしい！ もういちど かいてみよう';
+  let text, voice, showDemo = false;
+  if (r.reason === 'order') { text = 'かたちは いいね！ でも かきじゅんが ちがうよ'; voice = '形はいいね！ でも、書き順が違うよ。'; showDemo = true; }
+  else if (r.reason === 'direction') { text = `${r.stroke + 1}かくめの むきが はんたいだよ`; voice = `${r.stroke + 1}画目の向きが、反対だよ。`; showDemo = true; }
+  else if (r.reason === 'count') { text = `「${ch}」は ${r.expected}かいで かくよ（いまは ${r.got}かい）`; voice = `${letterWord(ch)}という字は、${r.expected}画で書くよ。`; showDemo = true; }
+  else if (r.looksLike) { text = `「${r.looksLike}」に みえるよ。もういちど`; voice = `${letterWord(r.looksLike)}に見えるよ。もう一回書いてみよう。`; }
+  else { text = 'おしい！ もういちど かいてみよう'; voice = '惜しい！ もう一回書いてみよう。'; }
   if (fails >= 2 && !hint) {
     hint = true; renderPrompt();
-    text = 'うすい せんを じゅんばんに なぞってみよう'; showDemo = false;
+    text = 'うすい せんを じゅんばんに なぞってみよう'; voice = '薄い線を、順番になぞってみよう。'; showDemo = false;
   }
-  setMsg(text); say(text.replace(/[「」（）]/g, ' '));
+  setMsg(text); say(voice);
   setTimeout(() => { strokes = []; if (showDemo) playDemo(); else drawPad(); }, 900);
 });
 
@@ -950,7 +987,7 @@ async function success() {
     await reelIn(s.fish);
     showCatch(s.fish);
   } else {
-    say('じょうず！'); renderChart();
+    say('上手に書けたね！'); renderChart();
   }
 }
 
@@ -978,7 +1015,7 @@ function showCatch(f) {
     cardEl.appendChild(s);
   }
   showOverlay(catchOv);
-  say(`${player ? player.name + '、' : ''}${d.name}を、つったよ！${isNew ? ' はじめて つかまえたね！' : ''}`);
+  say(`${player ? player.name + '、' : ''}${toKata(d.name)}を釣ったよ！${isNew ? ' 初めて捕まえたね。図鑑に載ったよ。' : ''}`);
 }
 function finishCatch() {
   if (!catchFish) return;
@@ -1056,7 +1093,7 @@ function showDetail(id) {
           </div>
         </div>
       </div>`;
-    $('#dtSay').addEventListener('click', () => say(`${c.name}。${c.fact}`));
+    $('#dtSay').addEventListener('click', () => say(`${toKata(c.name)}。${c.speak || c.fact}`));
   }
   $('#zkList').style.display = 'none'; box.style.display = '';
   box.scrollTop = 0;
@@ -1113,7 +1150,7 @@ $('#chartGrid').addEventListener('click', e => {
   audio(); sfx.tap();
   if (t.classList.contains('row-toggle')) {
     const ri = +t.dataset.row, i = state.rows.indexOf(ri);
-    if (i >= 0) { if (state.rows.length === 1) { say('ひとつは えらんでね'); return; } state.rows.splice(i, 1); }
+    if (i >= 0) { if (state.rows.length === 1) { say('一つは選んでね。'); return; } state.rows.splice(i, 1); }
     else state.rows.push(ri);
     state.rows.sort((a, b) => a - b); save(); rowsChanged = true; renderChart();
   } else {
@@ -1132,7 +1169,7 @@ function setMode(m) {
 }
 document.querySelectorAll('.modes button').forEach(b => b.addEventListener('click', () => {
   if (busy) return; audio(); sfx.tap(); setMode(b.dataset.mode);
-  say({ trace: 'なぞる', look: 'みて かく', listen: 'きいて かく' }[b.dataset.mode]);
+  say({ trace: 'なぞって書くよ。', look: '見て書くよ。', listen: '聞いて書くよ。' }[b.dataset.mode]);
 }));
 
 /* ================= players (start screen) ================= */
@@ -1155,7 +1192,7 @@ function usePlayer(p) {
   $('#whoName').textContent = p.name;
   setMode(state.mode); updateCount(); respawnAll();
   hideOverlay(startOv); busy = false;
-  say(`${p.name}、いっしょに つりを しよう！`);
+  say(`${p.name}、一緒に釣りをしよう！`);
 }
 function showStart() {
   busy = true; renderPlayers();
@@ -1191,6 +1228,19 @@ $('#nameForm').addEventListener('submit', e => {
   $('#nameInput').blur(); sfx.good();
   usePlayer(p);
 });
+function renderVoices() {
+  const sel = $('#voiceSel'); if (!sel) return;
+  if (!jaVoices.length) { sel.innerHTML = '<option>ふつうの こえ</option>'; sel.disabled = true; return; }
+  sel.disabled = false;
+  sel.innerHTML = jaVoices.map(v => `<option value="${escapeHTML(v.voiceURI)}">${escapeHTML(v.name)}</option>`).join('');
+  if (jaVoice) sel.value = jaVoice.voiceURI;
+}
+$('#voiceSel').addEventListener('change', e => {
+  jaVoice = jaVoices.find(v => v.voiceURI === e.target.value) || jaVoice;
+  store.voice = jaVoice && jaVoice.voiceURI; writeStore();
+  say('こんにちは。一緒に釣りをしよう！');
+});
+$('#voiceTest').addEventListener('click', () => { audio(); say('こんにちは。ホオジロザメを釣ったよ！'); });
 $('#whoBtn').addEventListener('click', () => { if (busy) return; audio(); sfx.tap(); save(); showStart(); });
 
 /* ================= scenery & boot ================= */
@@ -1212,6 +1262,7 @@ setMode(state.mode); updateCount();
 setTimeout(() => {
   respawnAll();
   $('#loading').remove();
+  pickVoice();
   showStart();
   requestAnimationFrame(tick);
 }, 0);
