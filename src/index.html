@@ -1,0 +1,1093 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ひらがな つり</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+<style>
+/* Layout: one-screen sea. Sky strip with a boat on top, fish swim below; cards rise over the sea for writing, the encyclopedia and the letter chart. Single deliberate look (sea world). */
+:root {
+  --sky: #cdeaf3;
+  --sky-low: #e8f6f8;
+  --sea-top: #2f97b8;
+  --sea-deep: #0d4566;
+  --sand: #ecd6a6;
+  --paper: #fffbf2;
+  --ink: #23303a;
+  --muted: #6b7a84;
+  --guide: #e27d6e;
+  --accent: #ffb020;
+  --ok: #2f9e62;
+  --wood: #8a5a35;
+  --shark: #3e6e8e;
+  --font-char: "Klee One", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --font-ui: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Hiragino Sans", sans-serif;
+  color-scheme: light;
+}
+html, body { height: 100%; }
+body {
+  margin: 0; overflow: hidden; background: var(--sea-deep); color: var(--ink);
+  font-family: var(--font-ui);
+  user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+}
+button { font-family: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+a { color: var(--shark); }
+
+#app { position: fixed; inset: 0; display: flex; flex-direction: column; overflow: hidden; }
+
+/* ---------- sky ---------- */
+#sky {
+  position: relative; flex: 0 0 auto; height: clamp(150px, 24vh, 210px);
+  background: linear-gradient(var(--sky), var(--sky-low));
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.cloud { position: absolute; background: #fff; border-radius: 999px; opacity: .85; }
+.cloud::before, .cloud::after { content: ""; position: absolute; background: #fff; border-radius: 50%; }
+.cloud.c1 { width: 120px; height: 34px; top: 60%; left: 62%; animation: drift 60s linear infinite; }
+.cloud.c1::before { width: 56px; height: 56px; left: 18px; top: -26px; }
+.cloud.c1::after { width: 40px; height: 40px; left: 62px; top: -16px; }
+.cloud.c2 { width: 90px; height: 26px; top: 44%; left: 30%; animation: drift 80s linear infinite reverse; }
+.cloud.c2::before { width: 40px; height: 40px; left: 14px; top: -20px; }
+.cloud.c2::after { width: 30px; height: 30px; left: 46px; top: -12px; }
+@keyframes drift { from { transform: translateX(-40px); } to { transform: translateX(40px); } }
+
+#topbar {
+  position: relative; z-index: 3; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 10px max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px));
+}
+#title {
+  font-family: var(--font-char); font-weight: 600; font-size: clamp(24px, 3.4vw, 34px);
+  margin: 0; letter-spacing: .08em; color: var(--sea-deep); margin-right: auto;
+}
+#title span { color: var(--guide); }
+.modes { display: flex; background: rgba(255,255,255,.7); border-radius: 999px; padding: 4px; gap: 2px; }
+.modes button {
+  border: 0; background: transparent; padding: 8px 14px; border-radius: 999px;
+  font-size: 16px; font-weight: 700; color: var(--sea-deep);
+}
+.modes button[aria-pressed="true"] { background: var(--sea-deep); color: #fff; }
+.pill {
+  border: 0; border-radius: 999px; padding: 10px 16px; font-size: 16px; font-weight: 900;
+  background: var(--accent); box-shadow: 0 3px 0 #c9850b;
+}
+.pill.alt { background: #fff; box-shadow: 0 3px 0 #b9cfd8; color: var(--sea-deep); }
+.pill:active { transform: translateY(2px); box-shadow: 0 1px 0 #c9850b; }
+
+#boat {
+  position: absolute; z-index: 2; bottom: -6px; left: 12%;
+  transition: left .7s cubic-bezier(.4,.1,.3,1);
+  animation: bob 3.2s ease-in-out infinite;
+}
+#boat .hull { font-size: clamp(60px, 9vmin, 84px); line-height: 1; display: block; }
+#boat .rod {
+  position: absolute; left: 62%; top: 18%; width: clamp(70px, 10vmin, 100px); height: 4px;
+  background: var(--wood); border-radius: 2px; transform-origin: 0 50%; transform: rotate(-28deg);
+}
+#rodTip { position: absolute; right: 0; top: 1px; width: 2px; height: 2px; }
+@keyframes bob { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(5px) rotate(1.5deg); } }
+
+/* ---------- sea ---------- */
+#sea {
+  position: relative; flex: 1 1 auto; overflow: hidden;
+  background: linear-gradient(var(--sea-top) 0%, #1f6f93 55%, var(--sea-deep) 100%);
+}
+.waves {
+  position: absolute; top: -12px; left: 0; right: 0; height: 24px; z-index: 1;
+  background: radial-gradient(circle at 16px 0, var(--sky-low) 15px, transparent 16px) repeat-x;
+  background-size: 32px 24px; animation: wave 6s linear infinite;
+}
+@keyframes wave { to { background-position: 64px 0; } }
+.rays { position: absolute; inset: 0; background: repeating-linear-gradient(100deg, rgba(255,255,255,.05) 0 40px, transparent 40px 120px); pointer-events: none; }
+.sandbed {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 9%; min-height: 40px;
+  background: var(--sand); border-radius: 50% 50% 0 0 / 30% 30% 0 0;
+  display: flex; justify-content: space-around; align-items: flex-start;
+}
+.sandbed span { font-size: 34px; transform: translateY(-60%); }
+.bubble {
+  position: absolute; bottom: -20px; width: 10px; height: 10px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.45); animation: rise linear infinite;
+}
+@keyframes rise { to { transform: translateY(-110vh); } }
+
+#fishLayer { position: absolute; inset: 0; z-index: 2; }
+.fish {
+  position: absolute; left: 0; top: 0; border: 0; background: transparent; padding: 6px;
+  display: flex; flex-direction: column; align-items: center; will-change: transform;
+}
+.fish .body { font-size: clamp(46px, 7.5vmin, 76px); line-height: 1; display: block; }
+.fish.small .body { font-size: clamp(36px, 5.5vmin, 54px); }
+.fish.big .body { font-size: clamp(56px, 9.5vmin, 96px); }
+.fish .tag {
+  margin-top: -4px; min-width: 52px; height: 52px; border-radius: 50%;
+  background: var(--paper); color: var(--ink); display: grid; place-items: center;
+  font-family: var(--font-char); font-weight: 600; font-size: 34px; line-height: 1;
+  box-shadow: 0 3px 0 rgba(0,0,0,.18);
+}
+.fish.picked .tag { background: var(--accent); }
+
+#lineLayer { position: absolute; inset: 0; z-index: 4; pointer-events: none; width: 100%; height: 100%; }
+
+/* ---------- overlays & cards ---------- */
+.overlay {
+  position: absolute; inset: 0; z-index: 10; display: grid; place-items: center;
+  background: rgba(8, 35, 52, .5); padding: 12px;
+  opacity: 0; transition: opacity .25s;
+}
+.overlay.show { opacity: 1; }
+.card {
+  position: relative; background: var(--paper); border-radius: 28px; padding: 18px 22px 20px;
+  box-shadow: 0 12px 0 rgba(0,0,0,.18); max-width: 94vw;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  transform: translateY(30px); transition: transform .3s cubic-bezier(.3,1.4,.5,1);
+}
+.overlay.show .card { transform: none; }
+.card.shake { animation: shake .45s; }
+@keyframes shake { 20%,60% { transform: translateX(-10px); } 40%,80% { transform: translateX(10px); } }
+.close-x {
+  position: absolute; top: -14px; right: -10px; width: 48px; height: 48px; border: 0; border-radius: 50%;
+  background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.2); font-size: 22px; font-weight: 900; z-index: 2;
+}
+.icon-btn {
+  border: 0; width: 54px; height: 54px; border-radius: 50%; background: #e4f1f5;
+  font-size: 26px; display: grid; place-items: center; flex: 0 0 auto;
+}
+
+/* writing sheet */
+.sheet-head { display: flex; align-items: center; gap: 14px; width: 100%; }
+.sheet-head .who { font-size: 54px; line-height: 1; }
+.prompt { font-size: clamp(20px, 2.8vw, 26px); font-weight: 900; flex: 1; }
+.prompt .big {
+  font-family: var(--font-char); font-weight: 600; font-size: 1.8em; color: var(--guide);
+  display: inline-block; min-width: 1.2em; text-align: center; vertical-align: -0.12em;
+}
+.prompt .sub { display: block; font-size: 15px; color: var(--muted); font-weight: 700; }
+#pad { touch-action: none; border-radius: 6px; display: block; }
+#msg { min-height: 1.6em; font-size: 20px; font-weight: 900; color: var(--guide); text-align: center; }
+#msg.good { color: var(--ok); }
+.sheet-foot { display: flex; gap: 12px; width: 100%; }
+.sheet-foot button { flex: 1; border: 0; border-radius: 18px; padding: 14px 8px; font-size: 20px; font-weight: 900; }
+#clearBtn { background: #e9e4d8; box-shadow: 0 4px 0 #cbc3b0; }
+#demoBtn { background: #dcecf2; box-shadow: 0 4px 0 #b3cfd9; color: var(--sea-deep); }
+#doneBtn { background: var(--ok); color: #fff; box-shadow: 0 4px 0 #1f7445; flex: 1.5; }
+.sheet-foot button:active { transform: translateY(3px); box-shadow: none; }
+
+/* catch */
+#catch .card { padding: 22px 28px 20px; gap: 6px; width: min(460px, 92vw); }
+.catch-photo { width: 100%; aspect-ratio: 4 / 3; border-radius: 18px; overflow: hidden; background: #dfeef2; display: grid; place-items: center; animation: pop .6s cubic-bezier(.3,1.6,.5,1); }
+.catch-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.catch-photo .emo { font-size: 110px; }
+@keyframes pop { from { transform: scale(.3) rotate(-12deg); } to { transform: none; } }
+.catch-name { font-family: var(--font-char); font-weight: 600; font-size: 46px; letter-spacing: .06em; line-height: 1.2; margin-top: 6px; }
+.catch-name b, .zk .n b, .dt-name b { color: var(--guide); font-weight: 600; }
+.catch-name b { font-size: 1.3em; }
+.catch-sub { font-size: 22px; font-weight: 900; color: var(--sea-deep); }
+.catch-new { font-size: 16px; font-weight: 900; color: #fff; background: var(--guide); border-radius: 999px; padding: 4px 14px; }
+.catch-actions { display: flex; gap: 12px; width: 100%; margin-top: 8px; }
+.catch-actions button { flex: 1; }
+.spark { position: absolute; font-size: 30px; animation: spark 1s ease-out forwards; pointer-events: none; z-index: 3; }
+@keyframes spark { from { transform: translate(0,0) scale(.4); opacity: 1; } to { transform: translate(var(--dx), var(--dy)) scale(1.1); opacity: 0; } }
+
+/* zukan */
+.panel { width: min(900px, 96vw); height: min(88vh, 900px); padding: 18px 18px 14px; gap: 10px; align-items: stretch; }
+.panel-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.panel-head h2 { margin: 0; font-size: 26px; font-weight: 900; color: var(--sea-deep); }
+.panel-head .count { font-size: 16px; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+.chips { display: flex; gap: 6px; margin-left: auto; flex-wrap: wrap; }
+.chips button { border: 0; border-radius: 999px; padding: 8px 14px; font-size: 15px; font-weight: 900; background: #e7f0f3; color: var(--sea-deep); }
+.chips button[aria-pressed="true"] { background: var(--sea-deep); color: #fff; }
+.scroll { overflow-y: auto; -webkit-overflow-scrolling: touch; min-height: 0; flex: 1; border-radius: 16px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; padding: 2px; }
+.zk {
+  background: #eef6f8; border-radius: 18px; padding: 8px 8px 10px; text-align: center; border: 0;
+  display: flex; flex-direction: column; align-items: stretch; gap: 4px; position: relative;
+}
+.zk .ph { aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden; background: #d6e7ed; display: grid; place-items: center; }
+.zk .ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.zk .ph .emo { font-size: 46px; }
+.zk.none .ph { background: repeating-linear-gradient(135deg, #e3edf0 0 10px, #dbe7eb 10px 20px); }
+.zk.none .ph .emo { filter: grayscale(1) brightness(.4); opacity: .25; }
+.zk .n { font-family: var(--font-char); font-weight: 600; font-size: 20px; line-height: 1.25; }
+.zk .x { font-size: 13px; font-weight: 700; color: var(--muted); }
+.badge-shark { position: absolute; top: 12px; left: 12px; background: var(--shark); color: #fff; font-size: 12px; font-weight: 900; border-radius: 999px; padding: 2px 8px; }
+.panel-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.linklike { border: 0; background: none; color: var(--muted); font-size: 13px; font-weight: 700; text-decoration: underline; padding: 6px; }
+
+/* zukan detail */
+.detail { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+@media (max-width: 760px) { .detail { grid-template-columns: 1fr; } }
+.dt-photo { width: 100%; aspect-ratio: 4 / 3; border-radius: 18px; overflow: hidden; background: #dfeef2; display: grid; place-items: center; }
+.dt-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.dt-photo .emo { font-size: 110px; }
+.dt-credit { font-size: 11px; color: var(--muted); margin-top: 6px; line-height: 1.4; user-select: text; -webkit-user-select: text; overflow-wrap: anywhere; }
+.dt-name { font-family: var(--font-char); font-weight: 600; font-size: 44px; line-height: 1.15; margin: 0; }
+.dt-name b { font-size: 1.25em; }
+.dt-group { display: inline-block; font-size: 14px; font-weight: 900; color: #fff; background: var(--sea-top); border-radius: 999px; padding: 3px 12px; margin-bottom: 8px; }
+.dt-group.same { background: var(--shark); }
+.facts { display: grid; gap: 10px; margin-top: 12px; }
+.fact { background: #eef6f8; border-radius: 14px; padding: 10px 14px; }
+.fact h4 { margin: 0 0 2px; font-size: 13px; color: var(--muted); font-weight: 900; letter-spacing: .05em; }
+.fact p { margin: 0; font-size: 18px; font-weight: 700; line-height: 1.5; }
+.fact.trivia { background: #fff3d6; }
+.cmp { display: grid; gap: 6px; margin-top: 6px; }
+.cmp-row { display: grid; grid-template-columns: 4.5em 1fr; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; }
+.cmp-track { display: flex; align-items: center; gap: 4px; min-width: 0; }
+.bar { height: 14px; border-radius: 7px; min-width: 4px; }
+.bar.kid { background: var(--accent); }
+.bar.it { background: var(--sea-top); }
+.cmp-row .ic { font-size: 22px; line-height: 1; }
+.cmp-say { font-size: 16px; font-weight: 900; color: var(--sea-deep); margin-top: 4px; }
+
+/* letter chart */
+.chart { display: grid; gap: 8px; }
+.chart-row { display: grid; grid-template-columns: 74px repeat(5, minmax(0, 1fr)); gap: 8px; align-items: stretch; }
+.row-toggle { border: 0; border-radius: 14px; font-size: 13px; font-weight: 900; background: #e7eef1; color: var(--muted); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 4px; }
+.row-toggle .r { font-family: var(--font-char); font-size: 20px; color: var(--ink); }
+.row-toggle[aria-pressed="true"] { background: var(--sea-top); color: #fff; }
+.row-toggle[aria-pressed="true"] .r { color: #fff; }
+.row-toggle:disabled { opacity: .35; }
+.cell { border: 0; border-radius: 14px; background: #fff; box-shadow: 0 2px 0 #d9e4e8; padding: 6px 2px 4px; display: flex; flex-direction: column; align-items: center; gap: 0; }
+.cell .c { font-family: var(--font-char); font-weight: 600; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
+.cell .stars { font-size: 13px; letter-spacing: 1px; color: #d3dade; }
+.cell .stars i { font-style: normal; }
+.cell .stars i.on { color: var(--accent); }
+.cell.empty { background: transparent; box-shadow: none; }
+.chart-help { font-size: 14px; font-weight: 700; color: var(--muted); }
+
+/* credits */
+.credits { font-size: 13px; line-height: 1.6; user-select: text; -webkit-user-select: text; }
+.credits li { margin-bottom: 4px; overflow-wrap: anywhere; }
+
+#loading { position: absolute; inset: 0; display: grid; place-items: center; z-index: 20; background: var(--sea-top); color: #fff; font-size: 24px; font-weight: 900; }
+
+@media (prefers-reduced-motion: reduce) {
+  #boat, .cloud, .waves, .bubble { animation: none; }
+}
+@media (max-width: 640px) {
+  .modes button { padding: 7px 9px; font-size: 14px; }
+  .pill { padding: 8px 11px; font-size: 14px; }
+  .chart-row { grid-template-columns: 54px repeat(5, minmax(0, 1fr)); gap: 5px; }
+}
+</style>
+
+<div id="app">
+  <div id="sky">
+    <div class="cloud c1"></div><div class="cloud c2"></div>
+    <div id="topbar">
+      <h1 id="title">ひらがな<span>つり</span></h1>
+      <div class="modes" role="group" aria-label="あそびかた">
+        <button id="m-trace" data-mode="trace">なぞる</button>
+        <button id="m-look" data-mode="look">みてかく</button>
+        <button id="m-listen" data-mode="listen">きいてかく</button>
+      </div>
+      <button class="pill alt" id="chartBtn">もじ</button>
+      <button class="pill" id="zukanBtn">ずかん <span id="zkCount"></span></button>
+    </div>
+    <div id="boat"><span class="hull">🛶</span><div class="rod"><i id="rodTip"></i></div></div>
+  </div>
+  <div id="sea">
+    <div class="rays"></div>
+    <div class="waves"></div>
+    <div id="bubbles"></div>
+    <div id="fishLayer"></div>
+    <div class="sandbed"><span>🪸</span><span>🐚</span><span>🌿</span><span>🪸</span><span>⭐</span></div>
+  </div>
+  <svg id="lineLayer" aria-hidden="true">
+    <line id="fline" stroke="#3b3b3b" stroke-width="2" />
+    <circle id="bobber" r="7" fill="#ff5a4e" stroke="#fff" stroke-width="2" />
+  </svg>
+
+  <div id="sheet" class="overlay" hidden>
+    <div class="card" id="sheetCard">
+      <button class="close-x" id="closeSheet" aria-label="とじる">×</button>
+      <div class="sheet-head">
+        <span class="who" id="who"></span>
+        <div class="prompt" id="prompt"></div>
+        <button class="icon-btn" id="sayBtn" aria-label="もういちど きく">🔊</button>
+      </div>
+      <canvas id="pad"></canvas>
+      <div id="msg"></div>
+      <div class="sheet-foot">
+        <button id="clearBtn">けす</button>
+        <button id="demoBtn">かきじゅん</button>
+        <button id="doneBtn">できた！</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="catch" class="overlay" hidden>
+    <div class="card" id="catchCard">
+      <div class="catch-photo" id="catchPhoto"></div>
+      <div class="catch-name" id="catchName"></div>
+      <div class="catch-sub">を つったよ！</div>
+      <div class="catch-new" id="catchNew" hidden>はじめて！ ずかんに のったよ</div>
+      <div class="catch-actions">
+        <button class="pill alt" id="catchZukan">ずかんを みる</button>
+        <button class="pill" id="catchNext">つづける</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="zukan" class="overlay" hidden>
+    <div class="card panel">
+      <button class="close-x" id="closeZukan" aria-label="とじる">×</button>
+      <div id="zkList" style="display:contents">
+        <div class="panel-head">
+          <h2>いきもの ずかん</h2>
+          <span class="count" id="zkCount2"></span>
+          <div class="chips" id="zkChips" role="group" aria-label="しぼりこみ">
+            <button data-f="all">ぜんぶ</button>
+            <button data-f="same">さめ</button>
+            <button data-f="sakana">さかな</button>
+            <button data-f="other">そのほか</button>
+          </div>
+        </div>
+        <div class="scroll"><div class="grid" id="zkGrid"></div></div>
+        <div class="panel-foot">
+          <span class="chart-help">つった いきものを タッチすると くわしく みられるよ</span>
+          <button class="linklike" id="creditsBtn">しゃしん・データの クレジット</button>
+        </div>
+      </div>
+      <div id="zkDetail" style="display:none" class="scroll"></div>
+    </div>
+  </div>
+
+  <div id="chart" class="overlay" hidden>
+    <div class="card panel">
+      <button class="close-x" id="closeChart" aria-label="とじる">×</button>
+      <div class="panel-head">
+        <h2>もじ ひょう</h2>
+        <span class="count" id="chartCount"></span>
+      </div>
+      <div class="chart-help">もじを タッチすると れんしゅう できるよ。ひだりの ボタンで うみに でてくる もじを えらべるよ。★は なぞる・みてかく・きいてかく で かけた しるし。</div>
+      <div class="scroll"><div class="chart" id="chartGrid"></div></div>
+    </div>
+  </div>
+
+  <div id="credits" class="overlay" hidden>
+    <div class="card panel">
+      <button class="close-x" id="closeCredits" aria-label="とじる">×</button>
+      <div class="panel-head"><h2>クレジット</h2></div>
+      <div class="scroll credits" id="creditsBody"></div>
+    </div>
+  </div>
+
+  <div id="loading">じゅんびちゅう…</div>
+</div>
+
+<script>window.HIRA_DATA = /*__DATA__*/null;</script>
+<script>
+(() => {
+'use strict';
+
+/* ================= data ================= */
+const DATA = window.HIRA_DATA;
+const CREATURES = DATA.creatures;
+const STROKES = DATA.strokes;
+const CREDITS = DATA.credits;
+const ROWS = [
+  ['あ','い','う','え','お'], ['か','き','く','け','こ'], ['さ','し','す','せ','そ'], ['た','ち','つ','て','と'],
+  ['な','に','ぬ','ね','の'], ['は','ひ','ふ','へ','ほ'], ['ま','み','む','め','も'], ['や',null,'ゆ',null,'よ'],
+  ['ら','り','る','れ','ろ'], ['わ',null,null,null,'を'], ['ん',null,null,null,null],
+];
+const ALL = ROWS.flat().filter(Boolean);
+const BY_LETTER = {};
+for (const c of CREATURES) (BY_LETTER[c.ch] ||= []).push(c);
+const BY_ID = Object.fromEntries(CREATURES.map(c => [c.id, c]));
+const GROUPS = { same: 'さめ', sakana: 'さかな', ika: 'いか・たこ', kani: 'かに・えび・やどかり', kujira: 'くじら・しゃち', kemono: 'うみの けもの', kame: 'かめ', kurage: 'くらげ' };
+const KID_CM = 110;
+const SPOKEN = { 'を': 'くっつきの を' };
+const spoken = ch => SPOKEN[ch] || ch;
+
+const $ = s => document.querySelector(s);
+const KEY = 'hiragana-tsuri-v2';
+function loadState() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } }
+const st0 = loadState();
+const state = {
+  caught: st0.caught || {},
+  progress: st0.progress || {},
+  mode: ['trace', 'look', 'listen'].includes(st0.mode) ? st0.mode : 'trace',
+  rows: Array.isArray(st0.rows) && st0.rows.length ? st0.rows : [0, 1, 2],
+};
+function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {} }
+
+/* ================= sound ================= */
+let actx = null;
+function audio() {
+  if (!actx) { try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch { return null; } }
+  if (actx.state === 'suspended') actx.resume();
+  return actx;
+}
+function tone(freq, start, dur, type = 'sine', vol = .18) {
+  const a = audio(); if (!a) return;
+  const t = a.currentTime + start, o = a.createOscillator(), g = a.createGain();
+  o.type = type; o.frequency.setValueAtTime(freq, t);
+  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + .02); g.gain.exponentialRampToValueAtTime(.001, t + dur);
+  o.connect(g).connect(a.destination); o.start(t); o.stop(t + dur + .05);
+}
+const sfx = {
+  tap() { tone(660, 0, .12, 'triangle', .12); },
+  tick() { tone(880, 0, .08, 'triangle', .1); },
+  good() { [523, 659, 784, 1047].forEach((f, i) => tone(f, i * .1, .3, 'triangle')); },
+  miss() { tone(392, 0, .2, 'sine', .14); tone(330, .16, .3, 'sine', .14); },
+  plop() { tone(220, 0, .25, 'sine', .2); tone(140, .05, .3, 'sine', .15); },
+  reel() { for (let i = 0; i < 8; i++) tone(900 + i * 40, i * .09, .05, 'square', .04); },
+};
+let jaVoice = null;
+function pickVoice() {
+  try { const v = speechSynthesis.getVoices().filter(v => /^ja/i.test(v.lang)); jaVoice = v.find(x => /Kyoko|O-ren|Hattori/i.test(x.name)) || v[0] || null; } catch {}
+}
+try { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; } catch {}
+function say(text) {
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ja-JP'; u.rate = .85; u.pitch = 1.15; if (jaVoice) u.voice = jaVoice;
+    speechSynthesis.speak(u);
+  } catch {}
+}
+
+/* ================= stroke recognizer =================
+   Stroke data: KanjiVG (109x109 units). Each stroke is resampled to RS points.
+   Whole-letter check (みてかく / きいてかく): both drawing and model are scaled by
+   their bounding box; strokes are compared pairwise, which tells apart a wrong
+   shape, a wrong stroke order and a stroke written backwards.
+   Trace check (なぞる): each stroke is compared, as it is drawn, with the next
+   model stroke at its absolute place in the box. */
+const RS = 32;
+const TH = { shape: .155, margin: .02, dir: .09, trace: .12, minDirLen: .18 };
+function pathLen(p) { let L = 0; for (let i = 1; i < p.length; i++) L += Math.hypot(p[i][0] - p[i - 1][0], p[i][1] - p[i - 1][1]); return L; }
+function resample(p, n = RS) {
+  if (p.length < 2 || pathLen(p) < 1e-9) return Array.from({ length: n }, () => [p[0][0], p[0][1]]);
+  const step = pathLen(p) / (n - 1), pts = p.map(q => [q[0], q[1]]), out = [[pts[0][0], pts[0][1]]];
+  let D = 0;
+  for (let i = 1; i < pts.length; i++) {
+    const d = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+    if (d > 0 && D + d >= step) {
+      const t = (step - D) / d, q = [pts[i - 1][0] + t * (pts[i][0] - pts[i - 1][0]), pts[i - 1][1] + t * (pts[i][1] - pts[i - 1][1])];
+      out.push(q); pts.splice(i, 0, q); D = 0;
+    } else D += d;
+  }
+  while (out.length < n) out.push(pts[pts.length - 1].slice());
+  return out.slice(0, n);
+}
+function bbox(strokes) {
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const s of strokes) for (const p of s) { x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); y0 = Math.min(y0, p[1]); y1 = Math.max(y1, p[1]); }
+  return { x0, y0, x1, y1, w: x1 - x0, h: y1 - y0, size: Math.max(x1 - x0, y1 - y0, 1e-6) };
+}
+function normSet(strokes) {
+  const b = bbox(strokes), cx = (b.x0 + b.x1) / 2, cy = (b.y0 + b.y1) / 2;
+  return strokes.map(s => resample(s.map(p => [(p[0] - cx) / b.size, (p[1] - cy) / b.size])));
+}
+const dist = (a, b) => { let s = 0; for (let i = 0; i < a.length; i++) s += Math.hypot(a[i][0] - b[i][0], a[i][1] - b[i][1]); return s / a.length; };
+const rev = a => a.slice().reverse();
+const PERMS = {};
+function perms(n) {
+  if (PERMS[n]) return PERMS[n];
+  const out = [], go = (a, rest) => { if (!rest.length) return out.push(a); rest.forEach((r, i) => go([...a, r], rest.filter((_, j) => j !== i))); };
+  go([], [...Array(n).keys()]);
+  return (PERMS[n] = out);
+}
+const TPL = {};
+for (const ch of ALL) {
+  const raw = STROKES[ch], b = bbox(raw);
+  TPL[ch] = {
+    raw, box: b,
+    norm: normSet(raw),
+    abs: raw.map(s => resample(s.map(p => [p[0] / b.size, p[1] / b.size]))),
+    lens: raw.map(s => pathLen(s) / b.size),
+  };
+}
+function analyze(U, ch) {
+  const T = TPL[ch].norm, n = T.length;
+  if (U.length !== n) return null;
+  const F = T.map(t => U.map(u => dist(u, t)));
+  const R = T.map(t => U.map(u => dist(rev(u), t)));
+  let best = null;
+  for (const p of perms(n)) {
+    let sum = 0, mx = 0;
+    for (let i = 0; i < n; i++) { const d = Math.min(F[i][p[i]], R[i][p[i]]); sum += d; mx = Math.max(mx, d); }
+    const sc = sum / n * .6 + mx * .4;
+    if (!best || sc < best.score) best = { score: sc, perm: p };
+  }
+  return { score: best.score, perm: best.perm, fwd: T.map((_, i) => F[i][i]), rev: T.map((_, i) => R[i][i]) };
+}
+function lookalike(U, except) {
+  let best = null;
+  for (const ch of ALL) {
+    if (ch === except || TPL[ch].norm.length !== U.length) continue;
+    const a = analyze(U, ch);
+    if (!best || a.score < best.score) best = { ch, score: a.score };
+  }
+  return best;
+}
+function recognize(strokes, target, opts = {}) {
+  if (!strokes.length || strokes.every(s => s.length < 2)) return { ok: false, reason: 'empty' };
+  const b = bbox(strokes);
+  if (opts.boxSize && b.size < opts.boxSize * .22) return { ok: false, reason: 'small' };
+  const U = normSet(strokes);
+  const expected = TPL[target].norm.length;
+  const other = lookalike(U, target);
+  if (U.length !== expected) {
+    return { ok: false, reason: 'count', expected, got: U.length, looksLike: other && other.score < TH.shape * .8 ? other.ch : null };
+  }
+  const a = analyze(U, target);
+  if (a.score > TH.shape) return { ok: false, reason: 'shape', score: a.score, looksLike: other && other.score < TH.shape ? other.ch : null };
+  if (other && other.score < a.score - TH.margin) return { ok: false, reason: 'shape', score: a.score, looksLike: other.ch };
+  if (!a.perm.every((v, i) => v === i)) return { ok: false, reason: 'order', score: a.score, perm: a.perm };
+  for (let i = 0; i < expected; i++) {
+    if (TPL[target].lens[i] > TH.minDirLen && a.rev[i] < a.fwd[i] && a.fwd[i] > TH.dir) return { ok: false, reason: 'direction', stroke: i, score: a.score };
+  }
+  return { ok: true, score: a.score };
+}
+// trace: stroke in model units (divided by glyph size), compared at absolute place
+function traceCheck(stroke, ch, k) {
+  const T = TPL[ch], u = resample(stroke);
+  if (k >= T.abs.length) return { ok: false, reason: 'extra' };
+  const d = dist(u, T.abs[k]);
+  if (d < TH.trace) return { ok: true };
+  if (T.lens[k] > TH.minDirLen && dist(rev(u), T.abs[k]) < TH.trace) return { ok: false, reason: 'direction' };
+  for (let j = k + 1; j < T.abs.length; j++) if (Math.min(dist(u, T.abs[j]), dist(rev(u), T.abs[j])) < TH.trace) return { ok: false, reason: 'order', which: j };
+  return { ok: false, reason: 'miss' };
+}
+
+/* ================= fish ================= */
+const app = $('#app'), sea = $('#sea'), fishLayer = $('#fishLayer');
+const LANES = 5;
+let fishes = [];
+let busy = false;
+
+function laneY(i) { return sea.clientHeight * (0.04 + i * (0.72 / (LANES - 1))); }
+function enabledLetters() { return state.rows.flatMap(r => ROWS[r] || []).filter(ch => ch && BY_LETTER[ch]); }
+function stars(ch) { const p = state.progress[ch] || {}; return (p.trace ? 1 : 0) + (p.look ? 1 : 0) + (p.listen ? 1 : 0); }
+function pickCreature() {
+  const on = new Set(fishes.map(f => f.data.id));
+  const pool = enabledLetters().flatMap(ch => BY_LETTER[ch]).filter(c => !on.has(c.id));
+  if (!pool.length) return null;
+  const w = pool.map(c => (state.caught[c.id] ? 1 : 3) / (1 + stars(c.ch)) / BY_LETTER[c.ch].length);
+  let r = Math.random() * w.reduce((a, b) => a + b, 0);
+  for (let i = 0; i < pool.length; i++) { r -= w[i]; if (r <= 0) return pool[i]; }
+  return pool[pool.length - 1];
+}
+function tagText(c) { return state.mode === 'listen' ? '？' : c.ch; }
+function spawn(initial) {
+  const used = new Set(fishes.map(f => f.lane));
+  const free = [...Array(LANES).keys()].filter(i => !used.has(i));
+  if (!free.length) return;
+  const data = pickCreature(); if (!data) return;
+  const lane = free[Math.floor(Math.random() * free.length)];
+  const el = document.createElement('button');
+  el.className = 'fish' + (data.small || data.size <= 10 ? ' small' : data.size >= 500 ? ' big' : '');
+  el.setAttribute('aria-label', state.mode === 'listen' ? 'いきもの' : data.ch);
+  el.innerHTML = `<span class="body"${data.filter ? ` style="filter:${data.filter}"` : ''}>${data.emoji}</span><span class="tag">${tagText(data)}</span>`;
+  const W = sea.clientWidth, dir = Math.random() < .5 ? -1 : 1;
+  const f = {
+    el, data, lane, body: el.querySelector('.body'), tag: el.querySelector('.tag'),
+    x: initial ? 20 + Math.random() * Math.max(40, W - 160) : (dir > 0 ? -130 : W + 30),
+    y: laneY(lane), vx: dir * (22 + Math.random() * 30), phase: Math.random() * 6, paused: false, hooked: false,
+  };
+  el.addEventListener('click', () => onFishTap(f));
+  fishLayer.appendChild(el);
+  fishes.push(f);
+}
+function respawnAll() { for (const f of fishes) f.el.remove(); fishes = []; for (let i = 0; i < LANES; i++) spawn(true); }
+function refreshTags() { for (const f of fishes) { f.tag.textContent = tagText(f.data); f.el.setAttribute('aria-label', state.mode === 'listen' ? 'いきもの' : f.data.ch); } }
+
+let last = performance.now();
+function tick(t) {
+  const dt = Math.min(.05, (t - last) / 1000); last = t;
+  const W = sea.clientWidth;
+  for (const f of fishes) {
+    if (f.hooked) continue;
+    if (!f.paused) {
+      f.x += f.vx * dt;
+      if ((f.x < -150 && f.vx < 0) || (f.x > W + 40 && f.vx > 0)) { f.vx = -f.vx; f.y = laneY(f.lane); }
+      f.phase += dt * 2.2;
+    }
+    f.el.style.transform = `translate(${f.x}px, ${f.y + Math.sin(f.phase) * 6}px)`;
+    f.body.style.transform = f.vx > 0 ? 'scaleX(-1)' : '';
+  }
+  if (!reeling) drawIdleLine();
+  requestAnimationFrame(tick);
+}
+
+/* ================= fishing line ================= */
+const fline = $('#fline'), bobber = $('#bobber'), rodTip = $('#rodTip'), boat = $('#boat');
+let reeling = false;
+function tipPos() { const r = rodTip.getBoundingClientRect(), a = app.getBoundingClientRect(); return [r.left - a.left, r.top - a.top]; }
+function setLine(x1, y1, x2, y2, showBobber = true) {
+  fline.setAttribute('x1', x1); fline.setAttribute('y1', y1); fline.setAttribute('x2', x2); fline.setAttribute('y2', y2);
+  bobber.setAttribute('cx', x2); bobber.setAttribute('cy', y2); bobber.style.display = showBobber ? '' : 'none';
+}
+function drawIdleLine() {
+  const [x, y] = tipPos(), seaTop = sea.getBoundingClientRect().top - app.getBoundingClientRect().top;
+  setLine(x, y, x, seaTop + 4 + Math.sin(performance.now() / 500) * 2);
+}
+const wait = ms => new Promise(r => setTimeout(r, ms));
+function animate(ms, fn) {
+  return new Promise(res => { const t0 = performance.now(); const step = t => { const k = Math.min(1, (t - t0) / ms); fn(k); k < 1 ? requestAnimationFrame(step) : res(); }; requestAnimationFrame(step); });
+}
+const ease = k => k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+async function reelIn(f) {
+  reeling = true; f.hooked = true;
+  const a = app.getBoundingClientRect(), lr = fishLayer.getBoundingClientRect(), fr = f.el.getBoundingClientRect();
+  const fx = fr.left + fr.width / 2 - a.left, fy = fr.top + fr.height * .35 - a.top;
+  const br = boat.getBoundingClientRect(), tipOff = tipPos()[0] - (br.left - a.left);
+  boat.style.left = Math.max(0, Math.min(a.width - br.width, fx - tipOff)) + 'px';
+  await wait(750);
+  let [tx, ty] = tipPos();
+  sfx.plop();
+  await animate(500, k => { const e = ease(k); setLine(tx, ty, tx + (fx - tx) * e, ty + (fy - ty) * e); });
+  sfx.reel();
+  const sx = fr.left - lr.left, sy = fr.top - lr.top;
+  await animate(950, k => {
+    [tx, ty] = tipPos(); const e = ease(k);
+    const cx = fx + (tx - fx) * e, cy = fy + (ty - fy) * e;
+    setLine(tx, ty, cx, cy, false);
+    f.el.style.transform = `translate(${sx + (cx - fx)}px, ${sy + (cy - fy)}px) rotate(${Math.sin(k * 30) * 12 * (1 - k)}deg)`;
+  });
+  f.el.style.opacity = '0';
+  reeling = false;
+}
+
+/* ================= writing sheet ================= */
+const sheet = $('#sheet'), card = $('#sheetCard'), pad = $('#pad'), pctx = pad.getContext('2d');
+const msgEl = $('#msg');
+// session: { ch, fish|null }
+let session = null, strokes = [], fails = 0, hint = false, boxSize = 400, activePointer = null, penSeen = false;
+let demo = null; // running demo animation handle
+
+const tracing = () => state.mode === 'trace' || hint;
+function guideXf() {
+  const b = TPL[session.ch].box, sc = boxSize * .76 / b.size;
+  return { sc, ox: boxSize / 2 - (b.x0 + b.w / 2) * sc, oy: boxSize / 2 - (b.y0 + b.h / 2) * sc, size: b.size };
+}
+function toBox(p, g) { return [p[0] * g.sc + g.ox, p[1] * g.sc + g.oy]; }
+function sizePad() {
+  const maxW = Math.min(window.innerWidth * .94, 640) - 44;
+  const maxH = window.innerHeight - 300;
+  boxSize = Math.floor(Math.max(220, Math.min(maxW, maxH, 500)));
+  const dpr = window.devicePixelRatio || 1;
+  pad.width = pad.height = Math.round(boxSize * dpr);
+  pad.style.width = pad.style.height = boxSize + 'px';
+  pctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  card.style.width = (boxSize + 44) + 'px';
+}
+function polyline(c, pts) {
+  if (pts.length === 1) { c.beginPath(); c.arc(pts[0][0], pts[0][1], c.lineWidth / 2, 0, 7); c.fill(); return; }
+  c.beginPath(); c.moveTo(pts[0][0], pts[0][1]);
+  for (let i = 1; i < pts.length; i++) c.lineTo(pts[i][0], pts[i][1]);
+  c.stroke();
+}
+function startMarker(c, p, n, color) {
+  const r = Math.max(13, boxSize * .032);
+  c.save(); c.fillStyle = color; c.beginPath(); c.arc(p[0], p[1], r, 0, 7); c.fill();
+  c.fillStyle = '#fff'; c.font = `900 ${Math.round(r * 1.25)}px "Zen Maru Gothic", sans-serif`; c.textAlign = 'center'; c.textBaseline = 'middle';
+  c.fillText(String(n), p[0], p[1] + 1); c.restore();
+}
+function arrowAlong(c, pts, color) {
+  const i = Math.min(pts.length - 2, Math.max(1, Math.floor(pts.length * .45)));
+  const [x, y] = pts[i], [x2, y2] = pts[Math.min(pts.length - 1, i + 2)];
+  const ang = Math.atan2(y2 - y, x2 - x), L = Math.max(12, boxSize * .035);
+  c.save(); c.fillStyle = color; c.translate(x, y); c.rotate(ang);
+  c.beginPath(); c.moveTo(L * .7, 0); c.lineTo(-L * .5, -L * .55); c.lineTo(-L * .5, L * .55); c.closePath(); c.fill(); c.restore();
+}
+function drawBase() {
+  const S = boxSize, c = pctx;
+  c.clearRect(0, 0, S, S);
+  c.fillStyle = '#fffdf7'; c.fillRect(0, 0, S, S);
+  c.strokeStyle = '#23303a'; c.lineWidth = 3; c.strokeRect(1.5, 1.5, S - 3, S - 3);
+  c.save(); c.setLineDash([8, 8]); c.strokeStyle = 'rgba(226,125,110,.7)'; c.lineWidth = 2;
+  c.beginPath(); c.moveTo(S / 2, 6); c.lineTo(S / 2, S - 6); c.moveTo(6, S / 2); c.lineTo(S - 6, S / 2); c.stroke(); c.restore();
+  c.lineCap = 'round'; c.lineJoin = 'round';
+}
+function drawPad() {
+  if (!session) return;
+  const c = pctx, g = guideXf(), T = TPL[session.ch];
+  drawBase();
+  if (tracing()) {
+    c.strokeStyle = 'rgba(35,48,58,.12)'; c.fillStyle = c.strokeStyle; c.lineWidth = boxSize * .075;
+    for (const s of T.raw) polyline(c, s.map(p => toBox(p, g)));
+    const k = strokes.length;
+    if (k < T.raw.length) {
+      const pts = T.raw[k].map(p => toBox(p, g));
+      c.strokeStyle = 'rgba(47,151,184,.35)'; c.fillStyle = c.strokeStyle; polyline(c, pts);
+      arrowAlong(c, pts, 'rgba(13,69,102,.75)');
+      startMarker(c, pts[0], k + 1, '#2f9e62');
+    }
+  }
+  c.strokeStyle = '#23303a'; c.fillStyle = '#23303a'; c.lineWidth = Math.max(7, boxSize * .04);
+  for (const s of strokes) polyline(c, s);
+}
+function stopDemo() { if (demo) { demo.stop = true; demo = null; } }
+function playDemo() {
+  if (!session) return;
+  stopDemo();
+  const T = TPL[session.ch], g = guideXf(), me = { stop: false };
+  demo = me;
+  const strokesBox = T.raw.map(s => s.map(p => toBox(p, g)));
+  const durs = T.lens.map(L => 380 + L * 700);
+  const t0 = performance.now(), gap = 220;
+  setMsg('じゅんばんに みてね');
+  const frame = t => {
+    if (me.stop) return;
+    let el = t - t0, done = true;
+    drawBase();
+    const c = pctx;
+    c.strokeStyle = 'rgba(35,48,58,.1)'; c.fillStyle = c.strokeStyle; c.lineWidth = boxSize * .075;
+    for (const s of strokesBox) polyline(c, s);
+    c.lineWidth = boxSize * .06;
+    for (let i = 0; i < strokesBox.length; i++) {
+      const pts = strokesBox[i];
+      if (el <= 0) { done = false; break; }
+      const k = Math.min(1, el / durs[i]);
+      const n = Math.max(1, Math.round(pts.length * k));
+      c.strokeStyle = '#e27d6e'; c.fillStyle = '#e27d6e';
+      polyline(c, pts.slice(0, n));
+      startMarker(c, pts[0], i + 1, '#0d4566');
+      if (k < 1) { done = false; break; }
+      el -= durs[i] + gap;
+    }
+    if (!done) requestAnimationFrame(frame);
+    else setTimeout(() => { if (!me.stop) { demo = null; drawPad(); setMsg(''); } }, 900);
+  };
+  requestAnimationFrame(frame);
+}
+
+function pt(e) { const r = pad.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
+pad.addEventListener('pointerdown', e => {
+  if (activePointer !== null || !session) return;
+  if (e.pointerType === 'pen') penSeen = true;
+  else if (penSeen && e.pointerType === 'touch') return; // palm rejection once a pencil is used
+  e.preventDefault();
+  if (demo) { stopDemo(); setMsg(''); }
+  try { pad.setPointerCapture(e.pointerId); } catch {}
+  activePointer = e.pointerId;
+  strokes.push([pt(e)]); drawPad();
+});
+pad.addEventListener('pointermove', e => {
+  if (e.pointerId !== activePointer) return;
+  const s = strokes[strokes.length - 1];
+  const evs = e.getCoalescedEvents ? e.getCoalescedEvents() : [];
+  for (const ev of (evs.length ? evs : [e])) {
+    const p = pt(ev), q = s[s.length - 1];
+    if (Math.hypot(p[0] - q[0], p[1] - q[1]) > 1.5) s.push(p);
+  }
+  drawPad();
+});
+function endStroke(e) {
+  if (e.pointerId !== activePointer) return;
+  activePointer = null;
+  if (tracing()) onTraceStroke();
+}
+pad.addEventListener('pointerup', endStroke);
+pad.addEventListener('pointercancel', endStroke);
+
+function onTraceStroke() {
+  const k = strokes.length - 1, s = strokes[k], g = guideXf();
+  if (s.length < 2 && pathLen(s) < 2 && TPL[session.ch].lens[k] > .1) { strokes.pop(); drawPad(); return; }
+  const model = s.map(p => [(p[0] - g.ox) / g.sc / g.size, (p[1] - g.oy) / g.sc / g.size]);
+  const r = traceCheck(model, session.ch, k);
+  if (r.ok) {
+    sfx.tick();
+    if (strokes.length === TPL[session.ch].raw.length) { drawPad(); success(); return; }
+    setMsg(`${k + 1}かくめ できた！`, true);
+    drawPad(); return;
+  }
+  sfx.miss();
+  const text = {
+    direction: 'むきが はんたいだよ。みどりの まるから かこう',
+    order: 'じゅんばんが ちがうよ。みどりの まるの ばんごうから かこう',
+    miss: 'うすい せんの うえを なぞってね',
+    extra: 'もう かけているよ',
+  }[r.reason];
+  setMsg(text); say(text.split('。')[0]);
+  setTimeout(() => { strokes.pop(); drawPad(); }, 450);
+}
+
+function setMsg(t, good = false) { msgEl.textContent = t; msgEl.classList.toggle('good', good); }
+function renderPrompt() {
+  const ch = session.ch, c = session.fish && session.fish.data;
+  $('#who').textContent = c ? c.emoji : '✏️';
+  $('#who').style.filter = c && c.filter ? c.filter : '';
+  const shown = state.mode === 'listen' && !hint ? '？' : ch;
+  const n = TPL[ch].raw.length;
+  $('#prompt').innerHTML = `<span class="big">${shown}</span> を かいてね<span class="sub">${n}かいで かく もじ</span>`;
+  $('#doneBtn').hidden = tracing();
+}
+function speakPrompt() { say(`${spoken(session.ch)}、を かいてね`); }
+function showOverlay(el) { el.hidden = false; requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show'))); }
+function hideOverlay(el) { el.classList.remove('show'); setTimeout(() => { el.hidden = true; }, 250); }
+
+function openSheet(ch, fish) {
+  session = { ch, fish }; strokes = []; fails = 0; hint = false; setMsg('');
+  sizePad(); renderPrompt(); drawPad(); showOverlay(sheet); speakPrompt();
+  if (state.mode === 'trace' && !(state.progress[ch] || {}).trace) setTimeout(() => { if (session && session.ch === ch && !strokes.length) playDemo(); }, 900);
+}
+function onFishTap(f) {
+  if (busy || f.hooked) return;
+  audio(); sfx.tap();
+  busy = true; f.paused = true; f.el.classList.add('picked');
+  openSheet(f.data.ch, f);
+}
+function closeSheet() {
+  stopDemo(); hideOverlay(sheet);
+  if (session && session.fish) { session.fish.paused = false; session.fish.el.classList.remove('picked'); busy = false; }
+  session = null;
+}
+$('#closeSheet').addEventListener('click', closeSheet);
+$('#sayBtn').addEventListener('click', () => { audio(); speakPrompt(); });
+$('#clearBtn').addEventListener('click', () => { stopDemo(); strokes = []; setMsg(''); drawPad(); });
+$('#demoBtn').addEventListener('click', () => { audio(); strokes = []; playDemo(); });
+$('#doneBtn').addEventListener('click', () => {
+  if (!session) return;
+  audio(); stopDemo();
+  const ch = session.ch;
+  const r = recognize(strokes, ch, { boxSize });
+  if (r.reason === 'empty') { setMsg('ここに じを かいてね'); return; }
+  if (r.reason === 'small') { setMsg('もうすこし おおきく かいてね'); say('もうすこし おおきく かいてね'); return; }
+  if (r.ok) return success();
+  fails++; sfx.miss();
+  card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
+  let text, showDemo = false;
+  if (r.reason === 'order') { text = 'かたちは いいね！ でも かきじゅんが ちがうよ'; showDemo = true; }
+  else if (r.reason === 'direction') { text = `${r.stroke + 1}かくめの むきが はんたいだよ`; showDemo = true; }
+  else if (r.reason === 'count') { text = `「${ch}」は ${r.expected}かいで かくよ（いまは ${r.got}かい）`; showDemo = true; }
+  else if (r.looksLike) text = `「${r.looksLike}」に みえるよ。もういちど`;
+  else text = 'おしい！ もういちど かいてみよう';
+  if (fails >= 2 && !hint) {
+    hint = true; renderPrompt();
+    text = 'うすい せんを じゅんばんに なぞってみよう'; showDemo = false;
+  }
+  setMsg(text); say(text.replace(/[「」（）]/g, ' '));
+  setTimeout(() => { strokes = []; if (showDemo) playDemo(); else drawPad(); }, 900);
+});
+
+function markStar(ch, mode) {
+  const p = (state.progress[ch] ||= {});
+  const isNew = !p[mode];
+  p[mode] = true; save();
+  return isNew;
+}
+async function success() {
+  const s = session, mode = hint ? 'trace' : state.mode;
+  markStar(s.ch, mode);
+  setMsg(hint ? 'できたね！ つぎは みないで かいてみよう' : 'じょうず！', true); sfx.good();
+  await wait(650);
+  stopDemo(); hideOverlay(sheet); session = null;
+  if (s.fish) {
+    s.fish.el.classList.remove('picked');
+    await reelIn(s.fish);
+    showCatch(s.fish);
+  } else {
+    say('じょうず！'); renderChart();
+  }
+}
+
+/* ================= catch ================= */
+const catchOv = $('#catch');
+let catchFish = null;
+function photoHTML(c, cls = 'emo') {
+  return c.img ? `<img src="${c.img}" alt="${c.name}の しゃしん" loading="lazy">` : `<span class="${cls}"${c.filter ? ` style="filter:${c.filter}"` : ''}>${c.emoji}</span>`;
+}
+function nameHTML(c) { return `<b>${c.name[0]}</b>${c.name.slice(1)}`; }
+function showCatch(f) {
+  const d = f.data, isNew = !state.caught[d.id];
+  state.caught[d.id] = (state.caught[d.id] || 0) + 1; save(); updateCount();
+  catchFish = f;
+  $('#catchPhoto').innerHTML = photoHTML(d);
+  $('#catchName').innerHTML = nameHTML(d);
+  $('#catchNew').hidden = !isNew;
+  const cardEl = $('#catchCard');
+  cardEl.querySelectorAll('.spark').forEach(s => s.remove());
+  for (let i = 0; i < 10; i++) {
+    const s = document.createElement('span'); s.className = 'spark'; s.textContent = i % 2 ? '✨' : '⭐';
+    const ang = i / 10 * Math.PI * 2;
+    s.style.left = '50%'; s.style.top = '30%';
+    s.style.setProperty('--dx', Math.cos(ang) * 190 + 'px'); s.style.setProperty('--dy', Math.sin(ang) * 140 + 'px');
+    cardEl.appendChild(s);
+  }
+  showOverlay(catchOv);
+  say(`${d.name}を、つったよ！${isNew ? ' はじめて つかまえたね！' : ''}`);
+}
+function finishCatch() {
+  if (!catchFish) return;
+  hideOverlay(catchOv);
+  catchFish.el.remove(); fishes = fishes.filter(x => x !== catchFish);
+  catchFish = null; spawn(false); busy = false;
+}
+$('#catchNext').addEventListener('click', finishCatch);
+$('#catchZukan').addEventListener('click', () => { const id = catchFish && catchFish.data.id; finishCatch(); openZukan(id); });
+
+/* ================= zukan ================= */
+let zkFilter = 'all';
+function updateCount() {
+  const n = CREATURES.filter(c => state.caught[c.id]).length;
+  $('#zkCount').textContent = `${n}/${CREATURES.length}`;
+  $('#zkCount2').textContent = `${n} / ${CREATURES.length} しゅるい`;
+}
+function sizeText(cm) {
+  if (cm < 100) return `${cm}センチ`;
+  const m = cm / 100;
+  return `${Number.isInteger(m) ? m : m.toFixed(1)}メートル`;
+}
+function compareText(cm) {
+  if (cm <= 12) return 'きみの てのひらに のるくらい';
+  if (cm < KID_CM * .7) return 'きみより ちいさい';
+  if (cm <= KID_CM * 1.4) return 'きみと おなじくらい';
+  return `きみの やく ${Math.round(cm / KID_CM)}ばい！`;
+}
+function renderZukanList() {
+  const list = CREATURES.filter(c => zkFilter === 'all' || (zkFilter === 'other' ? !['same', 'sakana'].includes(c.group) : c.group === zkFilter));
+  $('#zkGrid').innerHTML = list.map(c => {
+    const n = state.caught[c.id] || 0;
+    return `<button class="zk${n ? '' : ' none'}" data-id="${c.id}">
+      <span class="ph">${n ? photoHTML(c) : `<span class="emo">${c.emoji}</span>`}</span>
+      ${n && c.group === 'same' ? '<span class="badge-shark">さめ</span>' : ''}
+      <span class="n">${n ? nameHTML(c) : `<b>${c.ch}</b> の いきもの`}</span>
+      <span class="x">${n ? `${n}かい つった` : `「${c.ch}」を かくと つれるよ`}</span></button>`;
+  }).join('');
+  document.querySelectorAll('#zkChips button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.f === zkFilter)));
+}
+function showDetail(id) {
+  const c = BY_ID[id], n = state.caught[id] || 0;
+  const box = $('#zkDetail');
+  if (!n) {
+    box.innerHTML = `<div style="text-align:center;padding:40px 10px">
+      <div style="font-size:90px;filter:grayscale(1) brightness(.4);opacity:.3">${c.emoji}</div>
+      <p style="font-size:22px;font-weight:900">まだ つっていないよ</p>
+      <p style="font-size:18px;font-weight:700">うみで「<b style="font-family:var(--font-char);font-size:34px;color:var(--guide)">${c.ch}</b>」を かいて つってみよう</p>
+      <button class="pill alt" id="dtBack">もどる</button></div>`;
+  } else {
+    const cr = CREDITS[c.id];
+    const max = Math.max(KID_CM, c.size);
+    box.innerHTML = `
+      <div style="display:flex;gap:10px;margin-bottom:12px"><button class="pill alt" id="dtBack">← もどる</button><button class="pill alt" id="dtSay">🔊 よみあげ</button></div>
+      <div class="detail">
+        <div>
+          <div class="dt-photo">${photoHTML(c)}</div>
+          ${cr ? `<div class="dt-credit">しゃしん: ${escapeHTML(cr.artist)} / ${escapeHTML(cr.license)} / <a href="${cr.source}" target="_blank" rel="noopener">Wikimedia Commons</a></div>` : ''}
+        </div>
+        <div>
+          <span class="dt-group ${c.group}">${GROUPS[c.group]}</span>
+          <h3 class="dt-name">${nameHTML(c)}</h3>
+          <div class="facts">
+            <div class="fact"><h4>おおきさ${c.sizeNote ? `（${c.sizeNote}）` : ''}</h4><p>やく ${sizeText(c.size)}</p>
+              <div class="cmp">
+                <div class="cmp-row"><span>きみ</span><span class="cmp-track"><span class="bar kid" style="width:${KID_CM / max * 82}%"></span><span class="ic">🧒</span></span></div>
+                <div class="cmp-row"><span>${c.name.length > 5 ? c.name.slice(0, 4) + '…' : c.name}</span><span class="cmp-track"><span class="bar it" style="width:${c.size / max * 82}%"></span><span class="ic"${c.filter ? ` style="filter:${c.filter}"` : ''}>${c.emoji}</span></span></div>
+              </div>
+              <div class="cmp-say">${compareText(c.size)}</div>
+            </div>
+            <div class="fact"><h4>すんでいる ところ</h4><p>${c.where}</p></div>
+            <div class="fact"><h4>たべもの</h4><p>${c.food}</p></div>
+            <div class="fact trivia"><h4>まめちしき</h4><p>${c.fact}</p></div>
+            <div class="fact"><h4>つった かいすう</h4><p>${n}かい</p></div>
+          </div>
+        </div>
+      </div>`;
+    $('#dtSay').addEventListener('click', () => say(`${c.name}。${c.fact}`));
+  }
+  $('#zkList').style.display = 'none'; box.style.display = '';
+  box.scrollTop = 0;
+  $('#dtBack').addEventListener('click', () => { box.style.display = 'none'; $('#zkList').style.display = 'contents'; });
+}
+function escapeHTML(s) { return String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch])); }
+function openZukan(id) {
+  busy = true; renderZukanList();
+  $('#zkDetail').style.display = 'none'; $('#zkList').style.display = 'contents';
+  showOverlay($('#zukan'));
+  if (id) showDetail(id);
+}
+$('#zkGrid').addEventListener('click', e => { const b = e.target.closest('.zk'); if (b) { sfx.tap(); showDetail(b.dataset.id); } });
+$('#zkChips').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { zkFilter = b.dataset.f; renderZukanList(); } });
+$('#zukanBtn').addEventListener('click', () => { if (busy) return; audio(); sfx.tap(); openZukan(); });
+$('#closeZukan').addEventListener('click', () => { hideOverlay($('#zukan')); busy = false; });
+
+$('#creditsBtn').addEventListener('click', () => {
+  const rows = CREATURES.filter(c => CREDITS[c.id]).map(c => {
+    const cr = CREDITS[c.id];
+    return `<li>${c.name}: ${escapeHTML(cr.artist)} — ${escapeHTML(cr.license)}${cr.licenseUrl ? ` (<a href="${cr.licenseUrl}" target="_blank" rel="noopener">ライセンス</a>)` : ''} — <a href="${cr.source}" target="_blank" rel="noopener">${escapeHTML(cr.file)}</a></li>`;
+  }).join('');
+  $('#creditsBody').innerHTML = `
+    <h3>かきじゅん データ</h3>
+    <p>KanjiVG — Copyright (C) Ulrich Apel. <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>. <a href="https://kanjivg.tagaini.net" target="_blank" rel="noopener">kanjivg.tagaini.net</a></p>
+    <p>かきじゅん データは KanjiVG の SVG を てんの ならびに へんかんした もので、CC BY-SA 3.0 で ていきょう します。</p>
+    <h3>しゃしん（Wikimedia Commons）</h3>
+    <p>それぞれ もとの ライセンスの まま つかっています。ながい へんを 640px に ちいさくし、JPEG に へんかん しています。</p>
+    <ul>${rows}</ul>
+    <h3>プログラム</h3>
+    <p>MIT License</p>`;
+  showOverlay($('#credits'));
+});
+$('#closeCredits').addEventListener('click', () => hideOverlay($('#credits')));
+
+/* ================= letter chart ================= */
+let rowsChanged = false;
+function renderChart() {
+  const done = ALL.filter(ch => stars(ch) > 0).length;
+  $('#chartCount').textContent = `${done} / ${ALL.length} もじ`;
+  $('#chartGrid').innerHTML = ROWS.map((row, ri) => {
+    const fishable = row.some(ch => ch && BY_LETTER[ch]);
+    const on = state.rows.includes(ri);
+    return `<div class="chart-row">
+      <button class="row-toggle" data-row="${ri}" aria-pressed="${on && fishable}" ${fishable ? '' : 'disabled'} aria-label="${row[0]}の ぎょうを うみに だす">
+        <span class="r">${row[0]}</span><span>${fishable ? (on ? '🎣 でる' : 'でない') : 'れんしゅう'}</span></button>
+      ${row.map(ch => ch ? `<button class="cell" data-ch="${ch}"><span class="c">${ch}</span><span class="stars">${['trace', 'look', 'listen'].map(m => `<i class="${(state.progress[ch] || {})[m] ? 'on' : ''}">★</i>`).join('')}</span></button>` : '<span class="cell empty"></span>').join('')}
+    </div>`;
+  }).join('');
+}
+$('#chartGrid').addEventListener('click', e => {
+  const t = e.target.closest('.row-toggle, .cell[data-ch]'); if (!t) return;
+  audio(); sfx.tap();
+  if (t.classList.contains('row-toggle')) {
+    const ri = +t.dataset.row, i = state.rows.indexOf(ri);
+    if (i >= 0) { if (state.rows.length === 1) { say('ひとつは えらんでね'); return; } state.rows.splice(i, 1); }
+    else state.rows.push(ri);
+    state.rows.sort((a, b) => a - b); save(); rowsChanged = true; renderChart();
+  } else {
+    say(spoken(t.dataset.ch));
+    openSheet(t.dataset.ch, null);
+  }
+});
+$('#chartBtn').addEventListener('click', () => { if (busy) return; audio(); sfx.tap(); busy = true; rowsChanged = false; renderChart(); showOverlay($('#chart')); });
+$('#closeChart').addEventListener('click', () => { hideOverlay($('#chart')); busy = false; if (rowsChanged) respawnAll(); });
+
+/* ================= modes ================= */
+function setMode(m) {
+  state.mode = m; save();
+  document.querySelectorAll('.modes button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === m)));
+  refreshTags();
+}
+document.querySelectorAll('.modes button').forEach(b => b.addEventListener('click', () => {
+  if (busy) return; audio(); sfx.tap(); setMode(b.dataset.mode);
+  say({ trace: 'なぞる', look: 'みて かく', listen: 'きいて かく' }[b.dataset.mode]);
+}));
+
+/* ================= scenery & boot ================= */
+const bub = $('#bubbles');
+for (let i = 0; i < 10; i++) {
+  const b = document.createElement('span'); b.className = 'bubble';
+  const s = 6 + Math.random() * 12;
+  b.style.cssText = `left:${Math.random() * 100}%;width:${s}px;height:${s}px;animation-duration:${8 + Math.random() * 10}s;animation-delay:${-Math.random() * 15}s`;
+  bub.appendChild(b);
+}
+document.addEventListener('gesturestart', e => e.preventDefault());
+window.addEventListener('resize', () => {
+  for (const f of fishes) f.y = laneY(f.lane);
+  if (session) { stopDemo(); sizePad(); drawPad(); }
+});
+
+window.__hira = { recognize, traceCheck, TPL, TH, ALL, normSet, resample };
+setMode(state.mode); updateCount();
+setTimeout(() => {
+  respawnAll();
+  $('#loading').remove();
+  requestAnimationFrame(tick);
+}, 0);
+})();
+</script>

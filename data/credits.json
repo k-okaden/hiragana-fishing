@@ -1,0 +1,662 @@
+{
+ "aji": {
+  "file": "File:MaAji.jpg",
+  "raw": "vendor-raw/images/aji.jpg",
+  "mime": "image/jpeg",
+  "artist": "Izuzuki",
+  "license": "CC BY 2.5",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+  "source": "https://commons.wikimedia.org/wiki/File:MaAji.jpg",
+  "page": "Japanese jack mackerel"
+ },
+ "aozame": {
+  "file": "File:Shortfin_mako_(Isurus_oxyrinchus).jpg",
+  "raw": "vendor-raw/images/aozame.jpg",
+  "mime": "image/jpeg",
+  "artist": "Fábio Olmos",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Shortfin_mako_(Isurus_oxyrinchus).jpg",
+  "page": "Shortfin mako shark"
+ },
+ "ika": {
+  "file": "File:Todarodes_pacificus_ruler.jpg",
+  "raw": "vendor-raw/images/ika.jpg",
+  "mime": "image/jpeg",
+  "artist": "Almandine",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Todarodes_pacificus_ruler.jpg",
+  "page": "Japanese flying squid"
+ },
+ "itachizame": {
+  "file": "File:Tiger_shark.jpg",
+  "raw": "vendor-raw/images/itachizame.jpg",
+  "mime": "image/jpeg",
+  "artist": "Albert kok",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Tiger_shark.jpg",
+  "page": "Tiger shark"
+ },
+ "umigame": {
+  "file": "File:Green_sea_turtle_(Chelonia_mydas)_Moorea.jpg",
+  "raw": "vendor-raw/images/umigame.jpg",
+  "mime": "image/jpeg",
+  "artist": "Charles J. Sharp",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Green_sea_turtle_(Chelonia_mydas)_Moorea.jpg",
+  "page": "Green sea turtle"
+ },
+ "manbou": {
+  "file": "File:Mola_mola.jpg",
+  "raw": "vendor-raw/images/manbou.jpg",
+  "mime": "image/jpeg",
+  "artist": "U.S. National Oceanic and Atmospheric Administration",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Mola_mola.jpg",
+  "page": "Ocean sunfish"
+ },
+ "minokasago": {
+  "file": "File:Pterois_lunulata.jpg",
+  "raw": "vendor-raw/images/minokasago.jpg",
+  "mime": "image/jpeg",
+  "artist": "syu-1",
+  "license": "CC BY-SA 2.1 jp",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en",
+  "source": "https://commons.wikimedia.org/wiki/File:Pterois_lunulata.jpg",
+  "page": "Luna lionfish"
+ },
+ "mitsukurizame": {
+  "file": "File:Goblin_shark_(Mitsukurina_owstoni).jpg",
+  "raw": "vendor-raw/images/mitsukurizame.jpg",
+  "mime": "image/jpeg",
+  "artist": "Michigan State University/USFWS",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Goblin_shark_(Mitsukurina_owstoni).jpg",
+  "page": "Goblin shark"
+ },
+ "medaka": {
+  "file": "File:Oryzias_latipes(Hamamatsu,Shizuoka,Japan,2007)-1.jpg",
+  "raw": "vendor-raw/images/medaka.jpg",
+  "mime": "image/jpeg",
+  "artist": "Seotaro",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Oryzias_latipes(Hamamatsu,Shizuoka,Japan,2007)-1.jpg",
+  "page": "Japanese rice fish"
+ },
+ "ubazame": {
+  "file": "File:Cetorhinus_maximus_by_greg_skomal.JPG",
+  "raw": "vendor-raw/images/ubazame.jpg",
+  "mime": "image/jpeg",
+  "artist": "Greg Skomal / NOAA Fisheries Service",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Cetorhinus_maximus_by_greg_skomal.JPG",
+  "page": "Basking shark"
+ },
+ "ei": {
+  "file": "File:Japan_stingrays.jpg",
+  "raw": "vendor-raw/images/ei.jpg",
+  "mime": "image/jpeg",
+  "artist": "Ishikawa Ken from Kamakura, Japan",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Japan_stingrays.jpg",
+  "page": "Red stingray"
+ },
+ "ebi": {
+  "file": "File:Panulirus_japonicus3.jpg",
+  "raw": "vendor-raw/images/ebi.jpg",
+  "mime": "image/jpeg",
+  "artist": "Togabi",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Panulirus_japonicus3.jpg",
+  "page": "Japanese spiny lobster"
+ },
+ "ottosei": {
+  "file": "File:2025-08-15_Saint_Paul_Island_Alaska_18.jpg",
+  "raw": "vendor-raw/images/ottosei.jpg",
+  "mime": "image/jpeg",
+  "artist": "Carina Gsottbauer",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:2025-08-15_Saint_Paul_Island_Alaska_18.jpg",
+  "page": "Northern fur seal"
+ },
+ "ooguchizame": {
+  "file": "File:Megamouth_shark_Megachasma_pelagios.jpg",
+  "raw": "vendor-raw/images/ooguchizame.jpg",
+  "mime": "image/jpeg",
+  "artist": "opencage",
+  "license": "CC BY-SA 2.5",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+  "source": "https://commons.wikimedia.org/wiki/File:Megamouth_shark_Megachasma_pelagios.jpg",
+  "page": "Megamouth shark"
+ },
+ "kakurekumanomi": {
+  "file": "File:Clown_fish_in_the_Andaman_Coral_Reef.jpg",
+  "raw": "vendor-raw/images/kakurekumanomi.jpg",
+  "mime": "image/jpeg",
+  "artist": "Ritiks",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Clown_fish_in_the_Andaman_Coral_Reef.jpg",
+  "page": "Ocellaris clownfish"
+ },
+ "kani": {
+  "file": "File:Portunus_trituberculatus.jpg",
+  "raw": "vendor-raw/images/kani.jpg",
+  "mime": "image/jpeg",
+  "artist": "Almandine",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Portunus_trituberculatus.jpg",
+  "page": "Portunus trituberculatus"
+ },
+ "kasuzame": {
+  "file": "File:Squatina_japonica2.jpg",
+  "raw": "vendor-raw/images/kasuzame.jpg",
+  "mime": "image/jpeg",
+  "artist": "RYO SATO from Hamamatsu, Shizuoka, Japan",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Squatina_japonica2.jpg",
+  "page": "Japanese angelshark"
+ },
+ "kingyo": {
+  "file": "File:Gold_fish1.jpg",
+  "raw": "vendor-raw/images/kingyo.jpg",
+  "mime": "image/jpeg",
+  "artist": "לינה אבוגוש",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Gold_fish1.jpg",
+  "page": "Goldfish"
+ },
+ "kujira": {
+  "file": "File:Humpback_whale_breaching_off_Cabo_San_Lucas.jpg",
+  "raw": "vendor-raw/images/kujira.jpg",
+  "mime": "image/jpeg",
+  "artist": "Juan Cruzado Cortés",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Humpback_whale_breaching_off_Cabo_San_Lucas.jpg",
+  "page": "Humpback whale"
+ },
+ "kurage": {
+  "file": "File:Aurelia_aurita_(Cnidaria)_Luc_Viatour.jpg",
+  "raw": "vendor-raw/images/kurage.jpg",
+  "mime": "image/jpeg",
+  "artist": "Luc Viatour",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Aurelia_aurita_(Cnidaria)_Luc_Viatour.jpg",
+  "page": "Aurelia aurita"
+ },
+ "kurotogarizame": {
+  "file": "File:Carcharhinus_falciformis_off_Cuba.jpg",
+  "raw": "vendor-raw/images/kurotogarizame.jpg",
+  "mime": "image/jpeg",
+  "artist": "Alex Chernikh",
+  "license": "CC BY 2.5",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+  "source": "https://commons.wikimedia.org/wiki/File:Carcharhinus_falciformis_off_Cuba.jpg",
+  "page": "Silky shark"
+ },
+ "kegani": {
+  "file": "File:Четырёхугольный_волосатый_краб.jpg",
+  "raw": "vendor-raw/images/kegani.jpg",
+  "mime": "image/jpeg",
+  "artist": "Pannet",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:%D0%A7%D0%B5%D1%82%D1%8B%D1%80%D1%91%D1%85%D1%83%D0%B3%D0%BE%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D0%B2%D0%BE%D0%BB%D0%BE%D1%81%D0%B0%D1%82%D1%8B%D0%B9_%D0%BA%D1%80%D0%B0%D0%B1.jpg",
+  "page": "Horsehair crab"
+ },
+ "koi": {
+  "file": "File:Ojiya_Nishikigoi_no_Sato_ac_(3).jpg",
+  "raw": "vendor-raw/images/koi.jpg",
+  "mime": "image/jpeg",
+  "artist": "Asturio Cantabrio",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Ojiya_Nishikigoi_no_Sato_ac_(3).jpg",
+  "page": "Koi"
+ },
+ "kobanzame": {
+  "file": "File:Remora_Belize_Reef.jpg",
+  "raw": "vendor-raw/images/kobanzame.jpg",
+  "mime": "image/jpeg",
+  "artist": "Tibor Marcinek",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Remora_Belize_Reef.jpg",
+  "page": "Live sharksucker"
+ },
+ "komorizame": {
+  "file": "File:Nurse_Shark_(Ginglymostoma_cirratum)_379827271_(centered).jpg",
+  "raw": "vendor-raw/images/komorizame.jpg",
+  "mime": "image/jpeg",
+  "artist": "R Vasconcellos",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Nurse_Shark_(Ginglymostoma_cirratum)_379827271_(centered).jpg",
+  "page": "Nurse shark"
+ },
+ "sake": {
+  "file": "File:Dog_Salmon_Breeding_Male.jpg",
+  "raw": "vendor-raw/images/sake.jpg",
+  "mime": "image/jpeg",
+  "artist": "A. Hoen and Co.",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Dog_Salmon_Breeding_Male.jpg",
+  "page": "Chum salmon"
+ },
+ "sanma": {
+  "file": "File:Sanma_by_beemartins_in_Matsushima,_Miyagi.jpg",
+  "raw": "vendor-raw/images/sanma.jpg",
+  "mime": "image/jpeg",
+  "artist": "beemartins from Matsushima, Miyagi",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Sanma_by_beemartins_in_Matsushima,_Miyagi.jpg",
+  "page": "Pacific saury"
+ },
+ "shachi": {
+  "file": "File:Killerwhales_jumping.jpg",
+  "raw": "vendor-raw/images/shachi.jpg",
+  "mime": "image/jpeg",
+  "artist": "Robert Pittman",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Killerwhales_jumping.jpg",
+  "page": "Orca"
+ },
+ "shumokuzame": {
+  "file": "File:Scalloped_hammerhead_shark_(Sphyrna_lewini)_Costa_Rica_(cropped).jpg",
+  "raw": "vendor-raw/images/shumokuzame.jpg",
+  "mime": "image/jpeg",
+  "artist": "Kris-Mikael Krister",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Scalloped_hammerhead_shark_(Sphyrna_lewini)_Costa_Rica_(cropped).jpg",
+  "page": "Scalloped hammerhead"
+ },
+ "shirowani": {
+  "file": "File:Sand_tiger_shark_(Carcharias_taurus).jpg",
+  "raw": "vendor-raw/images/shirowani.jpg",
+  "mime": "image/jpeg",
+  "artist": "Bryce Watts-Parker",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Sand_tiger_shark_(Carcharias_taurus).jpg",
+  "page": "Sand tiger shark"
+ },
+ "suzuki": {
+  "file": "File:Suzuki201302.jpg",
+  "raw": "vendor-raw/images/suzuki.jpg",
+  "mime": "image/jpeg",
+  "artist": "Izuzuki",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Suzuki201302.jpg",
+  "page": "Japanese sea bass"
+ },
+ "seiuchi": {
+  "file": "File:Walrus_in_the_Russian_Arctic_National_Park,_Novaya_Zemlya_2015-2.jpg",
+  "raw": "vendor-raw/images/seiuchi.jpg",
+  "mime": "image/jpeg",
+  "artist": "Nixette",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Walrus_in_the_Russian_Arctic_National_Park,_Novaya_Zemlya_2015-2.jpg",
+  "page": "Walrus"
+ },
+ "sorasuzumedai": {
+  "file": "File:Damisela_neón_(Pomacentrus_coelestis),_Anilao,_Filipinas,_2023-08-23,_DD_46.jpg",
+  "raw": "vendor-raw/images/sorasuzumedai.jpg",
+  "mime": "image/jpeg",
+  "artist": "Diego Delso",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Damisela_ne%C3%B3n_(Pomacentrus_coelestis),_Anilao,_Filipinas,_2023-08-23,_DD_46.jpg",
+  "page": "Pomacentrus coelestis"
+ },
+ "tako": {
+  "file": "File:Octopus2.jpg",
+  "raw": "vendor-raw/images/tako.jpg",
+  "mime": "image/jpeg",
+  "artist": "albert kok",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Octopus2.jpg",
+  "page": "Common octopus"
+ },
+ "takaashigani": {
+  "file": "File:Macrocheira_kaempferi.jpg",
+  "raw": "vendor-raw/images/takaashigani.jpg",
+  "mime": "image/jpeg",
+  "artist": "Lycaon (Hans Hillewaert)",
+  "license": "CC BY 2.5",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+  "source": "https://commons.wikimedia.org/wiki/File:Macrocheira_kaempferi.jpg",
+  "page": "Japanese spider crab"
+ },
+ "chinanago": {
+  "file": "File:Rörålar.jpg",
+  "raw": "vendor-raw/images/chinanago.jpg",
+  "mime": "image/jpeg",
+  "artist": "Esquilo",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:R%C3%B6r%C3%A5lar.jpg",
+  "page": "Spotted garden eel"
+ },
+ "tsunodashi": {
+  "file": "File:Ídolo_moro_(Zanclus_cornutus),_Anilao,_Filipinas,_2023-08-25,_DD_233.jpg",
+  "raw": "vendor-raw/images/tsunodashi.jpg",
+  "mime": "image/jpeg",
+  "artist": "Diego Delso",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:%C3%8Ddolo_moro_(Zanclus_cornutus),_Anilao,_Filipinas,_2023-08-25,_DD_233.jpg",
+  "page": "Moorish idol"
+ },
+ "teppouuo": {
+  "file": "File:Toxotes_jaculatrix.jpg",
+  "raw": "vendor-raw/images/teppouuo.jpg",
+  "mime": "image/jpeg",
+  "artist": "Chrumps",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Toxotes_jaculatrix.jpg",
+  "page": "Banded archerfish"
+ },
+ "tenjikuzame": {
+  "file": "File:Brownbanded_Bambooshark_(5729957195).jpg",
+  "raw": "vendor-raw/images/tenjikuzame.jpg",
+  "mime": "image/jpeg",
+  "artist": "Tony Hisgett from Birmingham, UK",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Brownbanded_Bambooshark_(5729957195).jpg",
+  "page": "Brownbanded bamboo shark"
+ },
+ "tobiuo": {
+  "file": "File:Sailfin_flyingfish.jpg",
+  "raw": "vendor-raw/images/tobiuo.jpg",
+  "mime": "image/jpeg",
+  "artist": "David Starr Jordan and Barton Warren Evermann",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Sailfin_flyingfish.jpg",
+  "page": "Flying fish"
+ },
+ "namazu": {
+  "file": "File:Silurus.jpg",
+  "raw": "vendor-raw/images/namazu.jpg",
+  "mime": "image/jpeg",
+  "artist": "rhosoi",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Silurus.jpg",
+  "page": "Amur catfish"
+ },
+ "nijimasu": {
+  "file": "File:Close_up_of_rainbow_trout_fish_underwater_oncorhynchus_mykiss.jpg",
+  "raw": "vendor-raw/images/nijimasu.jpg",
+  "mime": "image/jpeg",
+  "artist": "Engbretson Eric, U.S. Fish and Wildlife Service",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Close_up_of_rainbow_trout_fish_underwater_oncorhynchus_mykiss.jpg",
+  "page": "Rainbow trout"
+ },
+ "nitari": {
+  "file": "File:Pelagic_thresher_shark_(Alopias_pelagicus)_(cropped).jpg",
+  "raw": "vendor-raw/images/nitari.jpg",
+  "mime": "image/jpeg",
+  "artist": "Pierre Pericard",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Pelagic_thresher_shark_(Alopias_pelagicus)_(cropped).jpg",
+  "page": "Pelagic thresher"
+ },
+ "nutaunagi": {
+  "file": "File:Korea-Busan-Haeundae_Market-Inshore_hagfish-04.jpg",
+  "raw": "vendor-raw/images/nutaunagi.jpg",
+  "mime": "image/jpeg",
+  "artist": "by Junho Jung at Flickr from South Korea",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Korea-Busan-Haeundae_Market-Inshore_hagfish-04.jpg",
+  "page": "Inshore hagfish"
+ },
+ "nezumizame": {
+  "file": "File:Salmon_shark_(Lamna_ditropis).jpg",
+  "raw": "vendor-raw/images/nezumizame.jpg",
+  "mime": "image/jpeg",
+  "artist": "NOAA Fisheries",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Salmon_shark_(Lamna_ditropis).jpg",
+  "page": "Salmon shark"
+ },
+ "nekozame": {
+  "file": "File:Heterodontus_japonicus_port_of_nagoya.jpg",
+  "raw": "vendor-raw/images/nekozame.jpg",
+  "mime": "image/jpeg",
+  "artist": "OpenCage Systems",
+  "license": "CC BY-SA 2.5",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+  "source": "https://commons.wikimedia.org/wiki/File:Heterodontus_japonicus_port_of_nagoya.jpg",
+  "page": "Japanese bullhead shark"
+ },
+ "harisenbon": {
+  "file": "File:Diodon_holocanthus_430513883.jpg",
+  "raw": "vendor-raw/images/harisenbon.jpg",
+  "mime": "image/jpeg",
+  "artist": "Chris Spain",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "source": "https://commons.wikimedia.org/wiki/File:Diodon_holocanthus_430513883.jpg",
+  "page": "Long-spine porcupinefish"
+ },
+ "hirame": {
+  "file": "File:Paralichthys-olivaceus-Federal-Way-3583.jpg",
+  "raw": "vendor-raw/images/hirame.jpg",
+  "mime": "image/jpeg",
+  "artist": "User:Vmenkov",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "source": "https://commons.wikimedia.org/wiki/File:Paralichthys-olivaceus-Federal-Way-3583.jpg",
+  "page": "Olive flounder"
+ },
+ "fugu": {
+  "file": "File:Fugu_in_Tank.jpg",
+  "raw": "vendor-raw/images/fugu.jpg",
+  "mime": "image/jpeg",
+  "artist": "Chris 73",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Fugu_in_Tank.jpg",
+  "page": "Takifugu rubripes"
+ },
+ "herachouzame": {
+  "file": "File:Paddlefish-USFWS-Fish-and-Aquatic-Conservation-2160x1440.jpg",
+  "raw": "vendor-raw/images/herachouzame.jpg",
+  "mime": "image/jpeg",
+  "artist": "U.S. Fish and Wildlife Service",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Paddlefish-USFWS-Fish-and-Aquatic-Conservation-2160x1440.jpg",
+  "page": "American paddlefish"
+ },
+ "hoojirozame": {
+  "file": "File:White_shark.jpg",
+  "raw": "vendor-raw/images/hoojirozame.jpg",
+  "mime": "image/jpeg",
+  "artist": "Pterantula (Terry Goss) at en.wikipedia",
+  "license": "CC BY 2.5",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+  "source": "https://commons.wikimedia.org/wiki/File:White_shark.jpg",
+  "page": "Great white shark"
+ },
+ "hotaruika": {
+  "file": "File:Watasenia_scintillans.jpg",
+  "raw": "vendor-raw/images/hotaruika.jpg",
+  "mime": "image/jpeg",
+  "artist": "ja:user:Dieno",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Watasenia_scintillans.jpg",
+  "page": "Firefly squid"
+ },
+ "maguro": {
+  "file": "File:Pacific_bluefin_tuna.jpg",
+  "raw": "vendor-raw/images/maguro.jpg",
+  "mime": "image/jpeg",
+  "artist": "aes256",
+  "license": "CC BY 2.1 jp",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.1/jp/deed.en",
+  "source": "https://commons.wikimedia.org/wiki/File:Pacific_bluefin_tuna.jpg",
+  "page": "Pacific bluefin tuna"
+ },
+ "mutsugorou": {
+  "file": "File:Bluespotted_mud_hopper.jpg",
+  "raw": "vendor-raw/images/mutsugorou.jpg",
+  "mime": "image/jpeg",
+  "artist": "최승호, 김병직, 권선만, 조현근, et al.",
+  "license": "KOGL Type 1",
+  "licenseUrl": "http://www.kogl.or.kr/info/licenseType1.do",
+  "source": "https://commons.wikimedia.org/wiki/File:Bluespotted_mud_hopper.jpg",
+  "page": "Boleophthalmus pectinirostris"
+ },
+ "mejirozame": {
+  "file": "File:Carcharhinus_plumbeus_georgia.jpg",
+  "raw": "vendor-raw/images/mejirozame.jpg",
+  "mime": "image/jpeg",
+  "artist": "Brian Gratwicke",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Carcharhinus_plumbeus_georgia.jpg",
+  "page": "Sandbar shark"
+ },
+ "mongarakawahagi": {
+  "file": "File:Balistoides_conspicillum_2607.jpg",
+  "raw": "vendor-raw/images/mongarakawahagi.jpg",
+  "mime": "image/jpeg",
+  "artist": "Amada44",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Balistoides_conspicillum_2607.jpg",
+  "page": "Clown triggerfish"
+ },
+ "yadokari": {
+  "file": "File:Calliactis_and_Dardanus_001.JPG",
+  "raw": "vendor-raw/images/yadokari.jpg",
+  "mime": "image/jpeg",
+  "artist": "H. Zell",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Calliactis_and_Dardanus_001.JPG",
+  "page": "Hermit crab"
+ },
+ "yumekasago": {
+  "file": "File:Yumekasago_Muroto_1.jpg",
+  "raw": "vendor-raw/images/yumekasago.jpg",
+  "mime": "image/jpeg",
+  "artist": "Totti",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Yumekasago_Muroto_1.jpg",
+  "page": "Helicolenus hilgendorfii"
+ },
+ "yoshikirizame": {
+  "file": "File:Tiburón_azul_(Prionace_glauca),_canal_Fayal-Pico,_islas_Azores,_Portugal,_2020-07-27,_DD_31.jpg",
+  "raw": "vendor-raw/images/yoshikirizame.jpg",
+  "mime": "image/jpeg",
+  "artist": "Diego Delso",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Tibur%C3%B3n_azul_(Prionace_glauca),_canal_Fayal-Pico,_islas_Azores,_Portugal,_2020-07-27,_DD_31.jpg",
+  "page": "Blue shark"
+ },
+ "rakko": {
+  "file": "File:Sea_Otter_(Enhydra_lutris)_(25169790524)_crop.jpg",
+  "raw": "vendor-raw/images/rakko.jpg",
+  "mime": "image/jpeg",
+  "artist": "Marshal Hedin from San Diego",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Sea_Otter_(Enhydra_lutris)_(25169790524)_crop.jpg",
+  "page": "Sea otter"
+ },
+ "rabuka": {
+  "file": "File:Chlamydoselachus_anguineus1.jpg",
+  "raw": "vendor-raw/images/rabuka.jpg",
+  "mime": "image/jpeg",
+  "artist": "Robert Mintern",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Chlamydoselachus_anguineus1.jpg",
+  "page": "Frilled shark"
+ },
+ "ryuuguunotsukai": {
+  "file": "File:Regalecus_glesne,_Naturhistorisches_Museum_Wien.jpg",
+  "raw": "vendor-raw/images/ryuuguunotsukai.jpg",
+  "mime": "image/jpeg",
+  "artist": "Sandstein",
+  "license": "CC BY 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Regalecus_glesne,_Naturhistorisches_Museum_Wien.jpg",
+  "page": "Giant oarfish"
+ },
+ "rurisuzumedai": {
+  "file": "File:Chrysiptera_cyanea_Gratwicke.jpg",
+  "raw": "vendor-raw/images/rurisuzumedai.jpg",
+  "mime": "image/jpeg",
+  "artist": "Brian Gratwicke",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Chrysiptera_cyanea_Gratwicke.jpg",
+  "page": "Chrysiptera cyanea"
+ },
+ "rouninaji": {
+  "file": "File:Caranx_ignobilis.jpg",
+  "raw": "vendor-raw/images/rouninaji.jpg",
+  "mime": "image/jpeg",
+  "artist": "Dr. Dwayne Meadows, NOAA/NMFS/OPR",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Caranx_ignobilis.jpg",
+  "page": "Giant trevally"
+ },
+ "wakasagi": {
+  "file": "File:Wakasagi_Adult_(70mm).tif",
+  "raw": "vendor-raw/images/wakasagi.jpg",
+  "mime": "image/tiff",
+  "artist": "René Reyes",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "source": "https://commons.wikimedia.org/wiki/File:Wakasagi_Adult_(70mm).tif",
+  "page": "Hypomesus nipponensis"
+ },
+ "renkodai": {
+  "file": "File:Dentex hypselosomus.png",
+  "raw": "vendor-raw/images/renkodai.jpg",
+  "mime": "image/png",
+  "artist": "National Institute of Fisheries Science",
+  "license": "KOGL Type 1",
+  "licenseUrl": "http://www.kogl.or.kr/info/licenseType1.do",
+  "source": "https://commons.wikimedia.org/wiki/File:Dentex_hypselosomus.png",
+  "page": "Dentex hypselosomus"
+ }
+}

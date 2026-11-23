@@ -1,0 +1,6 @@
+# downloaded originals (re-creatable with tools/*.py)
+vendor-raw/
+# local tool settings
+.claude/
+.DS_Store
+__pycache__/
