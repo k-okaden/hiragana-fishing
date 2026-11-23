@@ -2,6 +2,10 @@
 
 iPad で あそぶ、ひらがなを かいて うみの いきものを つる がくしゅう ゲーム（しさくばん）。
 
+**あそぶ:** https://k-okaden.github.io/hiragana-fishing/ （iPad の Safari で開き、「ホーム画面に追加」するとアプリのように使えます）
+
+`main` に push すると、GitHub Actions（`.github/workflows/pages.yml`）が `dist/` を GitHub Pages に公開します。
+
 ## しくみ
 
 - `src/index.html` … アプリ本体（HTML / CSS / JS 1ファイル）。データは build 時に埋め込み。
